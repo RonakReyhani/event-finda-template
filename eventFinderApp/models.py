@@ -26,8 +26,8 @@ class Event(models.Model):
     title = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
     description = models.TextField(null=True,help_text="Please add details about your event here")
-    start_time = models.DateTimeField('start time and date' )
-    end_time = models.DateTimeField('end time and date')
+    start_time = models.DateTimeField('start time and date',null=True )
+    end_time = models.DateTimeField('end time and date',null=True)
     category = models.ManyToManyField(Category ,help_text='Select a category for this event')
     
     def __str__(self):

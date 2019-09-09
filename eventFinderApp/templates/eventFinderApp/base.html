@@ -1,5 +1,6 @@
 {% load static %}
 
+
 <!doctype html>
 
 <html lang="en">
@@ -18,10 +19,17 @@
     <!-- Tempus Dominus Bootstrap 4 -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
-
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" /> 
+        <script src="{% static 'eventFinderApp/jquery.datetimepicker.js' %}"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'eventFinderApp/jquery.datetimepicker.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'eventFinderApp/style.css' %}">
+
+
+        
     </head>
 
     <body>
@@ -34,5 +42,8 @@
         </header>
 
         {% block content %}{% endblock %}
+
+        <footer></footer>
     </body>
+
 </html>

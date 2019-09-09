@@ -40,9 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'eventFinderApp.apps.EventfinderappConfig',
     'crispy_forms',
-
+    'bootstrap4',
+    'bootstrap_datepicker_plus',
+    'jquery',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
