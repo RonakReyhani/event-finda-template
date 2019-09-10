@@ -12,62 +12,53 @@
   <form method="post">
       {% csrf_token %}
       {% bootstrap_form createEvent %}
-      <!-- when I put the HTML code at least I get the Calendar button and calendar pop-up -->
-      <!-- <div class="input-group date" id="datetimepicker7" data-target-input="nearest">
-          
-          <div class="input-group-append" data-target="#datetimepicker7" data-toggle="datetimepicker">
-              {{ createEvent.start_time }}
-            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-          </div>
-        </div> -->
+      
+        <div class="container">
+        <div class="row">
+            <div class='col-md-5'>
+                <div class="form-group">
+                   <div class="input-group date" id="datetimepicker7" data-target-input="nearest">
+                        {{createEvent.start_time}}
+                        <div class="input-group-append" data-target="#datetimepicker7" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='col-md-5'>
+                <div class="form-group">
+                   <div class="input-group date" id="datetimepicker8" data-target-input="nearest">
+                        {{createEvent.end_time}}
+                        <div class="input-group-append" data-target="#datetimepicker8" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
         {% buttons %}
         <input type="submit" value="Submit Event">
-        {% endbuttons %}  
-      <!-- my first attempt with HTML -->
-        <!-- <div class = row >
-          <div class='col-md-5'>
-              <div class="form-group">
-                <div class="input-group date" id="datetimepicker7" data-target-input="nearest">
-                      <div class="input-group-append" data-target="#datetimepicker7" data-toggle="datetimepicker">
-                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                      </div>
-                      <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker7"/>
-                  </div>
-              </div>
-          </div>
-          <div class='col-md-5'>
-              <div class="form-group">
-                <div class="input-group date" id="datetimepicker8" data-target-input="nearest">
-                      <div class="input-group-append" data-target="#datetimepicker8" data-toggle="datetimepicker">
-                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                      </div>
-                      <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker8"/>
-                  </div>
-              </div>
-          </div>
-        </div> -->
-    </form>      
-  </div>
+        {% endbuttons %}
+      
+        <script type="text/javascript">
+          $(function () {
+              $('#datetimepicker7').datetimepicker();
+              $('#datetimepicker8').datetimepicker({
+                  useCurrent: false
+              });
+              $("#datetimepicker7").on("change.datetimepicker", function (e) {
+                  $('#datetimepicker8').datetimepicker('minDate', e.date);
+              });
+              $("#datetimepicker8").on("change.datetimepicker", function (e) {
+                  $('#datetimepicker7').datetimepicker('maxDate', e.date);
+              });
+          });
+      </script>
+      </form>      
+      </div>
+        
 
- <script type="text/javascript">
-  $(function () {
-      $('#datetimepicker7').datetimepicker();
-      $('#datetimepicker8').datetimepicker({
-          useCurrent: false //Important! See issue #1075
-      });
-      $("#datetimepicker7").on("dp.change", function (e) {
-          $('#datetimepicker8').data("DateTimePicker").minDate(e.date);
-      });
-      $("#datetimepicker7").on("dp.change", function (e) {
-          $('#datetimepicker8').data("DateTimePicker").maxDate(e.date);
-      });
-  });
-</script>   
-
-    
-  
-
-  
 {% endblock %}
 
 
