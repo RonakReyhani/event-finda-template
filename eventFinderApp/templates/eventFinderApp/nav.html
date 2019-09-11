@@ -1,53 +1,55 @@
-
-
 <nav>
-    <a href="{% url 'eventFinderApp:index' %}">HOME</a>
+    <a href="{% url 'eventFinderApp:index' %}"><i class="fa fa-home fa-5x" aria-hidden="true"></i></a>
     <div class="modal fade" tabindex="-1" role="dialog" id="modal">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content"></div>
-            </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content"></div>
+        </div>
     </div>
-          
-    <a class="login-btn" href="#" data-toggle="modal" data-target="#exampleModal">Sign up</a>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
+    <a class="login-btn" href="#" data-toggle="modal" data-target="#exampleModal">
+        <i class="fa fa-user fa-5x" aria-hidden="true"></i>
+    </a>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">SIGNUP/LOGIN</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+
+                    <h5 class="modal-title" id="exampleModalLabel">SIGNUP/LOGIN</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
 
 
 
-                        
+
 
 
 
 
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
-              </div>
             </div>
-          </div>
+        </div>
+    </div>
 
-<script>         
-    $('.modal').on('shown.bs.modal', function () {
-  $('#myInput').trigger('focus')
-})
-</script>    
+    <script>
+        $('.modal').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        })
+    </script>
     <!-- <script type="text/javascript">
         $(function () {
         // Log in button
         $(".login-btn").modalForm({formURL: "{% url 'eventFinderApp:account' %}"});
         });
     </script>       -->
-          
-    
+
+
 </nav>
