@@ -9,11 +9,11 @@
 
 {% block content %}
 <div class="container">
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {% bootstrap_form createEvent %}
       
-        <div class="container">
+        <!-- <div class="container">
         <div class="row">
             <div class='col-md-5'>
                 <div class="form-group">
@@ -36,7 +36,7 @@
                 </div>
             </div>
         </div>
-      </div>
+      </div> -->
         {% buttons %}
         <input type="submit" value="Submit Event">
         {% endbuttons %}

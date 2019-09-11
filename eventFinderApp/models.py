@@ -4,13 +4,9 @@ from django.urls import reverse
 from django.core.exceptions import ValidationError
 import datetime
 
-class Users(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-
-    def get_absolute_url(self):
-        """Returns the url to access a particular author instance."""
-        return reverse('user-profile', args=[str(self.id)])
+class User(models.Model):
+    user_name = models.CharField(max_length=100)
+    password = models.CharField(max_length=50)
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
@@ -29,7 +25,8 @@ class Event(models.Model):
     start_time = models.DateTimeField('start time and date',null=True )
     end_time = models.DateTimeField('end time and date',null=True)
     category = models.ManyToManyField(Category ,help_text='Select a category for this event')
-    
+    event_image = models.ImageField(upload_to='images/', null = True )
+
     def __str__(self):
         return self.title
 
@@ -45,6 +42,11 @@ class Event(models.Model):
             ret = ret + category.name + ','
         # remove the last ',' and return the value.
         return ret[:-1]
+
+    
+    def wordcount(self,description):
+        """Return the number of words."""
+        return len(self.description.split())   
 
 
 

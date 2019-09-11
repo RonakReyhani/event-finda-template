@@ -1,7 +1,34 @@
-<div class="details-box">
+<!-- <div class="details-box">
     <a href="{% url 'eventFinderApp:event' event.id %}">
         <p>{{ event.title }}</p>
         <p>{{ event.start_time }}</p>
         <p>{{ event.get_cat_values }}</p>
     </a>
+</div> -->
+
+
+<div class="col-4 py-3"> 
+    <div class="card details-box" style="width: 25rem; height:30rem;">
+
+        {% if event.event_image %}
+        <!-- need to check how to get the relevant image user uploaded -->
+            <img class="card-img-top card-image" src="{{ event.event_image.url }}" alt="{{event.title}} ">  
+        {% else %}
+            <imag class = card-img-top src="" alt="{{event.title}}">
+        {% endif %}        
+            <div class="card-body">
+                <h5 class="card-title">{{ event.title }}</h5>
+                <p class="card-text">
+                    {% if event.description|wordcount <= 5 %} 
+                        {{ event.description }}
+                    {% else %}
+                        {{ event.description|truncatewords:5}}
+                    {% endif %}
+                </p>
+                <p>{{ event.start_time }}</p>
+                <p>{{ event.get_cat_values }}</p>
+                <a href="{% url 'eventFinderApp:event' event.id %}" class="btn btn-info">Read More</a>
+
+            </div>
+    </div>        
 </div>
