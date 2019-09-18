@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # 'category',
     # 'django.contrib.sites',
     'widget_tweaks',
+    'users',
 
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -92,8 +93,8 @@ WSGI_APPLICATION = 'eventFinderProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'myeventfinder', # you will need to create this db
-        'USER': '', # enter your user name here
+        'NAME': 'myeventfinder',  # you will need to create this db
+        'USER': '',  # enter your user name here
         'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '5432',
@@ -140,4 +141,4 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
+AUTH_USER_MODEL = 'users.customUser'
