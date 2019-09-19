@@ -1,0 +1,83 @@
+{% extends "eventFinderApp/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+{% if next %}
+{% if user.is_authenticated %}
+<p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+{% else %}
+<p>Please login to see this page.</p>
+{% endif %}
+{% endif %}
+
+
+
+
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+
+        <form action="{% url 'users:user_register' %}" method="post">
+            {% csrf_token %}
+            <div class="mb-4 border-bottom pb-2">
+                <h2>Join EventFinda</h2>
+            </div>
+
+
+            <div class="panel-body">
+                {% if error_message %}
+                <p class="bg-danger p-d ml-b">{{ error_message }}</p>
+                {% endif %}
+
+
+                {{ form.email|as_crispy_field }}
+                {{ form.password1|as_crispy_field }}
+
+
+
+        </form>
+        <div class="border-top mt-2">
+            <small>
+                If you don't already have an account <a href="/register">Sign up</a>
+            </small>
+        </div>
+        <div class="d-flex justify-content-between">
+            <input type="button" class="btn btn-secondary" value="Cancel">
+            <input type="submit" value="login" class="btn btn-success">
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+<form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <table>
+
+        <tr>
+            <td>{{ form.username.label_tag }}</td>
+            <td>{{ form.username }}</td>
+        </tr>
+
+        <tr>
+            <td>{{ form.password.label_tag }}</td>
+            <td>{{ form.password }}</td>
+        </tr>
+    </table>
+
+    <input type="submit" value="login" />
+    <input type="hidden" name="next" value="{{ next }}" />
+</form>
+
+{# Assumes you setup the password_reset view in your URLconf #}
+<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+
+{% endblock %}

@@ -45,9 +45,16 @@ INSTALLED_APPS = [
     'bootstrap_modal_forms',
     'jquery',
     # 'category',
-    # 'django.contrib.sites',
+    'django.contrib.sites',
     'widget_tweaks',
     'users',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.twitter',
 
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -93,7 +100,7 @@ WSGI_APPLICATION = 'eventFinderProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'myeventfinder',  # you will need to create this db
+        'NAME': 'eventfinder',  # you will need to create this db
         'USER': '',  # enter your user name here
         'PASSWORD': '',
         'HOST': 'localhost',
@@ -142,3 +149,13 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'users.customUser'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # existing backend
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'

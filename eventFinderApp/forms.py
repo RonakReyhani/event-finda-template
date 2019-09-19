@@ -35,6 +35,11 @@ class createEvent(forms.ModelForm):
             })
         )
 
+    class Meta:
+        model = Event
+        fields = ['title', 'location', 'start_time', 'end_time',
+                  'event_image', 'description', 'category']
+
     def clean(self):
         cleaned_data = super(createEvent, self).clean()
         title = cleaned_data.get('title')

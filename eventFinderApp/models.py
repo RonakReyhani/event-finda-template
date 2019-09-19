@@ -5,6 +5,7 @@ from django import forms
 from django.urls import reverse
 from django.core.exceptions import ValidationError
 import datetime
+from django.conf import settings
 
 
 class Category(models.Model):
@@ -28,7 +29,7 @@ class Event(models.Model):
         Category, help_text='Select a category for this event')
     event_image = models.ImageField(upload_to='images/', null=True)
     created_by = models.ForeignKey(
-        customUser, on_delete=models.CASCADE, related_name='created_by', null=True)
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='created_by', null=True)
 
     def __str__(self):
         return self.title
