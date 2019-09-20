@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from .forms import RegisterForm
 from .models import customUser
@@ -43,7 +44,7 @@ def user_register(request):
                 login(request, user)
 
                 # redirect to accounts page:
-                return HttpResponseRedirect('registration/profile')
+                return HttpResponseRedirect(reverse_lazy('eventFinderApp:index'))
 
    # No post data availabe, let's just show the page.
     else:
@@ -55,7 +56,7 @@ def user_register(request):
 def logout_request(request):
     logout(request)
     messages.info(request, " Logged out successfully!")
-    return redirect("eventFinderApp: index")
+    return HttpResponseRedirect(reverse_lazy('eventFinderApp: index'))
 
 
 def login_request(request):

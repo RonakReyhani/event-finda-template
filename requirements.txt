@@ -1,2 +1,10 @@
 django==2.2
 psycopg2==2.8.3
+django-crispy-forms
+django-bootstrap4
+django-bootstrap-datepicker-plus
+django-bootstrap-modal-forms
+django-jquery
+django-widget-tweaks
+# django-allauth
+pillow

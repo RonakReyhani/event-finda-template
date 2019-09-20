@@ -48,13 +48,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'widget_tweaks',
     'users',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-
-    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.twitter',
 
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
