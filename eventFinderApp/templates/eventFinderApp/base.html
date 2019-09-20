@@ -49,6 +49,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'eventFinderApp/style.css' %}">
+    <link rel="stylesheet" href="{% static 'eventFinderApp/css/bootstrap.min.css' %}">
+
 
 
 
@@ -57,10 +59,9 @@
 <body>
     <header>
         <div>
-            <h1>EventFinda</h1>
-            <h2>Find free events near you!</h2>
+
+            {% include './nav.html' %}
         </div>
-        {% include './nav.html' %}
     </header>
 
     {% block content %}{% endblock %}
@@ -84,6 +85,10 @@
             </div>
         </div>
     </footer>
+
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>
 
 </html>
