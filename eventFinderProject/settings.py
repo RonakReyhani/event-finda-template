@@ -26,7 +26,7 @@ SECRET_KEY = 'ia%+sm_))53wjxov*1abig1-&*w8cu#f78@-(k3vu=ehn25@_q'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-SITE_ID = 1
+
 
 # Application definition
 
@@ -42,14 +42,16 @@ INSTALLED_APPS = [
     'crispy_forms',
     'bootstrap4',
     'bootstrap_datepicker_plus',
-    'bootstrap_modal_forms',
+    # 'bootstrap_modal_forms',
     'jquery',
     # 'category',
-    'django.contrib.sites',
+    # 'django.contrib.sites',
     'widget_tweaks',
     'users',
 
 ]
+
+# SITE_ID = 1
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 BOOTSTRAP4 = {
     'include_jquery': True,
@@ -63,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'eventFinderProject.urls'
@@ -142,11 +145,14 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'users.customUser'
-
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',  # existing backend
-    'allauth.account.auth_backends.AuthenticationBackend',
+    # 'allauth.account.auth_backends.AuthenticationBackend',
 )
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
+
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True

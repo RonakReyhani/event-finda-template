@@ -4,9 +4,11 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
-from .forms import RegisterForm
+from .forms import RegisterForm, UsersLoginForm
 from .models import customUser
 from django import forms
+from django.views.decorators.csrf import csrf_protect
+from django.contrib import messages
 
 
 def user_register(request):
@@ -56,12 +58,13 @@ def user_register(request):
 def logout_request(request):
     logout(request)
     messages.info(request, " Logged out successfully!")
-    return HttpResponseRedirect(reverse_lazy('eventFinderApp: index'))
+    return HttpResponseRedirect(reverse_lazy("eventFinderApp:index"))
 
 
-def login_request(request):
+@csrf_protect
+def login_view(request):
     if request.method == 'POST':
-        form = forms.AuthenticationForm(request, data=request.POST)
+        form = UsersLoginForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
@@ -70,10 +73,10 @@ def login_request(request):
                 login(request, user)
                 messages.info(
                     request, f'You are now logged in as {{user.first_name}}')
-                return redirect("eventFinderApp: index")
+                return HttpResponseRedirect(reverse_lazy("eventFinderApp:index"))
             else:
                 messages.error(request, "Invalid email or password")
         else:
             messages.error(request, "Invalid email or password")
-    form = forms.AuthenticationForm
+    form = UsersLoginForm()
     return render(request, "registration/login.html", {'form': form})
