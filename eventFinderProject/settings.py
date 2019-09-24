@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     # 'django.contrib.sites',
     'widget_tweaks',
     'users',
+    'rest_framework',
+    'rest_framework.authtoken',
 
 ]
 
@@ -150,11 +152,17 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',  # existing backend
     # 'allauth.account.auth_backends.AuthenticationBackend',
 )
-LOGIN_REDIRECT_URL = 'index'
-LOGOUT_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = 'eventFinderApp:index'
+LOGOUT_REDIRECT_URL = 'eventFinderApp:index'
 
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}

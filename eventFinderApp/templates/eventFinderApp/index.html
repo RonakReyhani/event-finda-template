@@ -1,27 +1,24 @@
 {% extends "./base.html" %}
 
 {% block content %}
-    <a href="./createEvent/"><button id="new-event">Create new event</button></a>
-    <h3>UPCOMING EVENTS</h3>
-    <div class="row">
-            {% if events_list %}
-                {% for event in events_list %}
-                    
-                    <div class=" col-md-4" style="margin-top: 1%">
-                        {% include "./detailsBox.html" with event=event %} 
-                    </div>
-                
-                    {% if forloop.counter|divisibleby:3 %}
-                        
-                        </div><div class="row">
-                    {% endif %}
-                {% endfor %}  
-            
-            {% endif %}
-        
-        </div>
+
+<h3>UPCOMING EVENTS</h3>
+<div class="row">
+    {% if events_list %}
+    {% for event in events_list %}
+
+    <div class=" col-md-4" style="margin-top: 1%">
+        {% include "./detailsBox.html" with event=event %}
+    </div>
+
+    {% if forloop.counter|divisibleby:3 %}
+
+</div>
+<div class="row">
+    {% endif %}
+    {% endfor %}
+
+    {% endif %}
+
+</div>
 {% endblock %}
-
-
-
-

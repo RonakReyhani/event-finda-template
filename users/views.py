@@ -5,10 +5,12 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from .forms import RegisterForm, UsersLoginForm
-from .models import customUser
+from .models import customUser, Profile
 from django import forms
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
+from django.views import generic
+from django.views.generic import CreateView
 
 
 def user_register(request):
@@ -80,3 +82,12 @@ def login_view(request):
             messages.error(request, "Invalid email or password")
     form = UsersLoginForm()
     return render(request, "registration/login.html", {'form': form})
+
+
+class ProfileView(generic.DetailView):
+    model = Profile
+    template_name = 'profile.html'
+
+    def get_queryset(self):
+        '''Return the events created_by user'''
+        return Event.objects.filter(user.Profile.email)

@@ -48,8 +48,13 @@ class CreateEventView(generic.View):
         createEvent = self.form_class(request.POST, request.FILES)
         file = request.FILES['event_image']
         # check if the form is valid
+        if not request.user.is_authenticated:
+            raise Http404
         if createEvent.is_valid():
-            createEvent.save()
+            instance = createEvent.save(commit=False)
+            instance.created_by = request.user
+            instance.save()
+
             # redirect to the list of events
             return HttpResponseRedirect(self.success_url)
         # if the form isn't valid return the form (with automatic errors)

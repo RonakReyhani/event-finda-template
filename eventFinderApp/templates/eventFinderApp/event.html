@@ -8,5 +8,7 @@
 <p>{{ event.description }} </p>
 <p>Starts at: {{ event.start_time }}</p>
 <p>Ends at: {{ event.end_time }}</p>
-
+{% if instance.user.get_full_name %}
+<p>Created by: {{ instance.user.get_full_name }}</p>
+{% endif %}
 {% endblock %}

@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from .models import customUser
+from .models import customUser, Profile
 
 
 class UserAdmin(BaseUserAdmin):
