@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm
-from .models import customUser
+from .models import customUser, Profile
 from django.contrib.auth import authenticate
 from django import forms
 
@@ -45,3 +45,9 @@ class UsersLoginForm(forms.Form):
                 raise forms.ValidationError("User is no longer active")
 
         return super(UsersLoginForm, self).clean(*args, **keyargs)
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('__all__')

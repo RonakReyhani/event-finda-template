@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.db import models
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 # Create your models here.
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils import timezone
@@ -37,7 +38,7 @@ class customUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
     last_login = models.DateTimeField(null=True, blank=True)
-    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
 
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
@@ -78,17 +79,25 @@ class customUser(AbstractBaseUser, PermissionsMixin):
 
 class Profile (models.Model):
     user = models.OneToOneField(customUser, on_delete=models.CASCADE)
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
 
     def __str__(self):
-        return f'{self.user.first_name} Account'
+        return f'{self.user.first_name} Profile'
 
-    def save(self):
-        super().save()
-
-        img = Image.open(self.image.path)
-
+    def save(self, *args, **kwargs):
+        super(Profile, self).save(*args, **kwargs)
+        img = image.open(self.image.path)
         if img.height > 300 or img.width > 300:
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
+
+
+@receiver(post_save, sender=customUser)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=customUser)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()

@@ -11,6 +11,8 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.views import generic
 from django.views.generic import CreateView
+from django.contrib.auth.decorators import login_required
+from django.db import transaction
 
 
 def user_register(request):
@@ -86,8 +88,31 @@ def login_view(request):
 
 class ProfileView(generic.DetailView):
     model = Profile
-    template_name = 'profile.html'
+    template_name = 'registration/profile.html'
 
     def get_queryset(self):
         '''Return the events created_by user'''
         return Event.objects.filter(user.Profile.email)
+
+
+@login_required
+@transaction.atomic
+def update_profile(request):
+    if request.method == 'POST':
+        user_form = RegisterForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, _(
+                'Your profile was successfully updated!'))
+            return redirect('users:profile')
+        else:
+            messages.error(request, _('Please correct the error below.'))
+    else:
+        user_form = RegisterForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+    return render(request, 'registration/profile.html', {
+        'user_form': user_form,
+        'profile_form': profile_form
+    })
