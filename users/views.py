@@ -113,13 +113,17 @@ class PasswordChangeDoneView(PasswordContextMixin, TemplateView):
     template_name = 'registration/password_change_done.html'
 
 
-class ProfileView(generic.DetailView):
-    model = Profile
-    template_name = 'registration/profile.html'
+# class ProfileView(generic.DetailView):
+#     model = Profile
+#     template_name = 'registration/profile.html'
 
-    def get_queryset(self):
-        '''Return the events created_by user'''
-        return Event.objects.filter(created_by=self.request.user)
+#     def get_queryset(self):
+#         '''Return the events created_by user'''
+#         return Event.objects.filter(created_by=self.request.user)
+
+
+class ProfileView(TemplateView):
+    template_name = "registration/view_profile.html"
 
 
 @login_required

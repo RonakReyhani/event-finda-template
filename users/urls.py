@@ -29,8 +29,9 @@ urlpatterns = [
     url(r'^reset/done/$', auth_views.PasswordResetCompleteView.as_view(),
         name='password_reset_complete'),
 
-    url(r'^view_profile/$', 'view_profile', name='view_profile'),
-    url(r'^view_profile/edit_profile/$', 'edit_profile', name='edit_profile')
+    url(r'^view_profile/$', views.ProfileView.as_view(), name='view_profile'),
+    url(r'^view_profile/edit_profile/$',
+        views.edit_profile, name='edit_profile')
 
     # path('<int:pk>/', views.ProfileView.as_view(), name="profile")
 
