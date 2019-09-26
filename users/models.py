@@ -9,6 +9,9 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import ugettext_lazy as _
+import os
+from PIL import Image
+import glob
 
 
 class UserManager(BaseUserManager):
@@ -33,12 +36,14 @@ class UserManager(BaseUserManager):
 
 class customUser(AbstractBaseUser, PermissionsMixin):
 
-    email = models.EmailField(_('email address'), unique=True)
+    email = models.EmailField(
+        _('email address'), unique=True)
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
     last_login = models.DateTimeField(null=True, blank=True)
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    image = models.ImageField(default='default.jpg',
+                              upload_to='images/profile_pics', blank=True)
 
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
@@ -79,17 +84,22 @@ class customUser(AbstractBaseUser, PermissionsMixin):
 
 class Profile (models.Model):
     user = models.OneToOneField(customUser, on_delete=models.CASCADE)
+    image = models.ImageField(default='default.jpg',
+                              upload_to='images/profile_pics', blank=True)
 
     def __str__(self):
         return f'{self.user.first_name} Profile'
 
     def save(self, *args, **kwargs):
         super(Profile, self).save(*args, **kwargs)
-        img = image.open(self.image.path)
+        img = Image.open(self.image.path)
         if img.height > 300 or img.width > 300:
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
+
+    def get_absolute_url(self):
+        return "/profile/%i/" % (self.pk)
 
 
 @receiver(post_save, sender=customUser)

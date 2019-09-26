@@ -13,16 +13,18 @@ from django.views import generic
 from django.views.generic import CreateView
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from eventFinderApp.models import Event
+from django.contrib.auth.views import PasswordContextMixin
+from django.views.generic.edit import FormView
+from django.views.generic import TemplateView
 
 
 def user_register(request):
     # if this is a POST request we need to process the form data
     template = 'registration/register.html'
-
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = RegisterForm(request.POST, request.FILES)
-
         # check whether it's valid:
         if form.is_valid():
 
@@ -87,13 +89,33 @@ def login_view(request):
     return render(request, "registration/login.html", {'form': form})
 
 
+class PasswordResetView(PasswordContextMixin, FormView):
+    template_name = 'registration/password_reset_form.html'
+
+
+class PasswordResetDoneView(PasswordContextMixin, TemplateView):
+    template_name = 'registration/password_reset_done.html'
+
+
+class PasswordResetConfirmView(PasswordContextMixin, FormView):
+    template_name = 'registration/password_reset_confirm.html'
+
+
+class PasswordChangeView(PasswordContextMixin, FormView):
+    template_name = 'registration/password_change_form.html'
+
+
+class PasswordChangeDoneView(PasswordContextMixin, TemplateView):
+    template_name = 'registration/password_change_done.html'
+
+
 class ProfileView(generic.DetailView):
     model = Profile
     template_name = 'registration/profile.html'
 
     def get_queryset(self):
         '''Return the events created_by user'''
-        return Event.objects.filter(user.Profile.email)
+        return Event.objects.filter(created_by=self.request.user)
 
 
 @login_required
