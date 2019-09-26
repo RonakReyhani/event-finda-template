@@ -7,6 +7,7 @@ from . import views
 app_name = 'users'
 
 urlpatterns = [
+
     url(r'^register/$', views.user_register, name='user_register'),
     url(r'^logout/$', views.logout_request, name='logout'),
     url(r'^login/$', views.login_view, name="login"),
@@ -28,7 +29,9 @@ urlpatterns = [
     url(r'^reset/done/$', auth_views.PasswordResetCompleteView.as_view(),
         name='password_reset_complete'),
 
+    url(r'^view_profile/$', 'view_profile', name='view_profile'),
+    url(r'^view_profile/edit_profile/$', 'edit_profile', name='edit_profile')
 
-    path('<int:pk>/', views.ProfileView.as_view(), name="profile")
+    # path('<int:pk>/', views.ProfileView.as_view(), name="profile")
 
 ]

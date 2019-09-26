@@ -1,3 +1,7 @@
+from django.contrib.auth import update_session_auth_hash
+from users.forms import (EditProfileForm, ProfileForm)
+from datetime import datetime
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
@@ -119,23 +123,24 @@ class ProfileView(generic.DetailView):
 
 
 @login_required
-@transaction.atomic
-def update_profile(request):
+def edit_profile(request):
     if request.method == 'POST':
-        user_form = RegisterForm(request.POST, instance=request.user)
-        profile_form = ProfileForm(request.POST, instance=request.user.profile)
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, _(
-                'Your profile was successfully updated!'))
-            return redirect('users:profile')
-        else:
-            messages.error(request, _('Please correct the error below.'))
+        form = EditProfileForm(request.POST, instance=request.user)
+        # request.FILES is show the selected image or file
+        profile_form = ProfileForm(
+            request.POST, request.FILES, instance=request.user.Profile)
+
+        if form.is_valid() and profile_form.is_valid():
+            user_form = form.save()
+            custom_form = profile_form.save(False)
+            custom_form.user = user_form
+            custom_form.save()
+            return redirect('users:view_profile')
     else:
-        user_form = RegisterForm(instance=request.user)
-        profile_form = ProfileForm(instance=request.user.profile)
-    return render(request, 'registration/profile.html', {
-        'user_form': user_form,
-        'profile_form': profile_form
-    })
+        form = EditProfileForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.userprofile)
+        args = {}
+        # args.update(csrf(request))
+        args['form'] = form
+        args['profile_form'] = profile_form
+        return render(request, 'registration/edit_profile.html', args)
