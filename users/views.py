@@ -1,5 +1,5 @@
 from django.contrib.auth import update_session_auth_hash
-from users.forms import (EditProfileForm, ProfileForm)
+from users.forms import (CustomUserChangeForm, ProfileForm)
 from datetime import datetime
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -113,17 +113,15 @@ class PasswordChangeDoneView(PasswordContextMixin, TemplateView):
     template_name = 'registration/password_change_done.html'
 
 
-# class ProfileView(generic.DetailView):
-#     model = Profile
-#     template_name = 'registration/profile.html'
-
-#     def get_queryset(self):
-#         '''Return the events created_by user'''
-#         return Event.objects.filter(created_by=self.request.user)
-
-
-class ProfileView(TemplateView):
+class ProfileView(generic.View):
     template_name = "registration/view_profile.html"
+
+    def getProfile(self, request):
+        user_form = CustomUserChangeForm(instance=request.user)
+        events_list = Event.objects.filter(created_by=request.user)
+        context = {'events_list': events_list, 'form': user_form}
+        template_name = 'registration/view_profile.html'
+        return render(request, template_name, context)
 
 
 @login_required

@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-# Create your models here.
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils import timezone
 from django.core.mail import send_mail
@@ -83,6 +82,7 @@ class customUser(AbstractBaseUser, PermissionsMixin):
 
 
 class Profile (models.Model):
+
     user = models.OneToOneField(customUser, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg',
                               upload_to='images/profile_pics', blank=True)

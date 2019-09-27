@@ -23,7 +23,13 @@ class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
         model = customUser
-        fields = ('email',)
+        fields = ('__all__')
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('__all__')
 
 
 class UsersLoginForm(forms.Form):
@@ -53,19 +59,3 @@ class UsersLoginForm(forms.Form):
                 raise forms.ValidationError("User is no longer active")
 
         return super(UsersLoginForm, self).clean(*args, **keyargs)
-
-
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ('__all__')
-
-
-class EditProfileForm(forms.ModelForm):
-    class Meta:
-        model = customUser
-        fields = (
-            'email',
-            'first_name',
-            'last_name'
-        )
