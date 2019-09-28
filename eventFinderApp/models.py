@@ -1,6 +1,6 @@
 from django.db import models
 # from django.contrib.auth.models import User
-from users.models import customUser
+from users.models import CustomUser
 from django import forms
 from django.urls import reverse
 from django.core.exceptions import ValidationError

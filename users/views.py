@@ -1,5 +1,5 @@
 from django.contrib.auth import update_session_auth_hash
-from users.forms import (CustomUserChangeForm, ProfileForm)
+from users.forms import (CustomUserChangeForm)
 from datetime import datetime
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -8,8 +8,8 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
-from .forms import RegisterForm, UsersLoginForm
-from .models import customUser, Profile
+from .forms import RegisterForm
+from .models import CustomUser
 from django import forms
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
