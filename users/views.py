@@ -28,15 +28,6 @@ class Register(generic.CreateView):
     template_name = 'registration/register.html'
 
 
-class ProfileView(generic.View):
-    template_name = "registration/profile.html"
-    context_object_name = 'events_list'
-
-    def get_queryset(self):
-        '''Return the events.'''
-        return Event.objects.filter(host=self.request.user).order_by('start_time')
-
-
 class EditProfile(generic.UpdateView):
     form_class = CustomUserChangeForm
     success_url = reverse_lazy('eventFinderApp:account')

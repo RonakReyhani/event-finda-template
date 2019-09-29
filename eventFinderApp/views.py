@@ -19,6 +19,15 @@ class IndexView(generic.ListView):
         return Event.objects.all()
 
 
+class ProfileView(generic.View):
+    template_name = "eventFinderApp/profile.html"
+    context_object_name = 'events_list'
+
+    def get_queryset(self):
+        '''Return the events.'''
+        return Event.objects.filter(host=self.request.user).order_by('start_time')
+
+
 class EventView(generic.DetailView):
     model = Event
     template_name = 'eventFinderApp/event.html'

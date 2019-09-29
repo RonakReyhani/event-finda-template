@@ -1,4 +1,4 @@
-{% extends "eventFinderApp/base.html" %}
+{% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
 
@@ -14,14 +14,20 @@
     </div>
 
     <div class="container">
+        {% if user.is_authenticated %}
         <div class="row">
             <div class="col-md-2">
-                <a href="{% url 'users:edit_profile' %}"><button type="button">Edit your Profile</button></a>
+                <a href="{% url 'users:editprofile' %}"><button type="button">Edit your Profile</button></a>
             </div>
             <div class="col-md-2">
                 <a href="{% url 'users:password_change' %}"><button type="button">Change your password</button></a>
             </div>
+            {% else %}
+            <p><a href="{% url 'login' %}">Login to edit this profile</a></p>
+            {% endif %}
+
         </div>
+        <h3>Your events:</h3>
         {% if events_list %}
         {% for event in events_list %}
         {% include "./detailsBox.html" with event=event %}
