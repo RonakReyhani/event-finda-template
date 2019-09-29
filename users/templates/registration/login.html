@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
@@ -31,7 +32,7 @@
                     </form>
                 </div>
                 <div class="card-footer text-muted text-center">
-                    New to EventFinda? <a href="{% url 'user_register' %}">Sign up</a>
+                    New to EventFinda? <a href="{% url 'users:register' %}">Sign up</a>
                 </div>
             </div>
             <div class="text-center py-2">

@@ -8,9 +8,15 @@ app_name = 'users'
 
 urlpatterns = [
 
-    url(r'^register/$', views.user_register, name='user_register'),
-    url(r'^logout/$', views.logout_request, name='logout'),
-    url(r'^login/$', views.login_view, name="login"),
+
+    path('register/', views.Register.as_view(), name='register'),
+
+    url(r'^profile/$', views.ProfileView.as_view(), name='profile'),
+    url(r'^profile/edit_profile/$',
+        views.EditProfile.as_view(), name='editprofile'),
+
+    # url(r'^logout/$', views.logout_request, name='logout'),
+    # url(r'^login/$', views.login_view, name="login"),
 
     url(r'^password_change/$', views.PasswordChangeView.as_view(),
         name='password_change'),
@@ -29,9 +35,6 @@ urlpatterns = [
     url(r'^reset/done/$', auth_views.PasswordResetCompleteView.as_view(),
         name='password_reset_complete'),
 
-    url(r'^view_profile/$', views.ProfileView.as_view(), name='view_profile'),
-    url(r'^view_profile/edit_profile/$',
-        views.edit_profile, name='edit_profile')
 
     # path('<int:pk>/', views.ProfileView.as_view(), name="profile")
 

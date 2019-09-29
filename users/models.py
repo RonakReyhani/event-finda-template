@@ -43,8 +43,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
 
     last_login = models.DateTimeField(null=True, blank=True)
-    image = models.ImageField(default='default.jpg',
-                              upload_to='images/profile_pics', blank=True)
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
@@ -70,6 +68,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.first_name
+
+    def get_short_name(self):
+        return self.first_name
 
     def get_absolute_url(self):
         return "/users/%i/" % (self.pk)

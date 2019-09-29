@@ -1,35 +1,37 @@
 {% extends "eventFinderApp/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-{% if user.is_authenticated %
+
+
 <div class="content-section">
     <div class="media">
         <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
         <div class="media-body">
             <h2 class="account-heading">First name: {{ user.first_name }}</h2>
-            <span>
-                    Bio : {{ user.profile.bio }}
-            </span>
+            <p class="text-secondary">{{ user.last_name }}</p>
             <p class="text-secondary">{{ user.email }}</p>
         </div>
     </div>
 
     <div class="container">
-    <div class="row">
-        <div class="col-md-2">
+        <div class="row">
+            <div class="col-md-2">
                 <a href="{% url 'users:edit_profile' %}"><button type="button">Edit your Profile</button></a>
+            </div>
+            <div class="col-md-2">
+                <a href="{% url 'users:password_change' %}"><button type="button">Change your password</button></a>
+            </div>
+        </div>
+        {% if events_list %}
+        {% for event in events_list %}
+        {% include "./detailsBox.html" with event=event %}
+        {% endfor %}
+
+        {% else %}
+        <p>You aren't hosting any events</p>
+        {% endif %}
+
+    </div>
 </div>
-<div class="col-md-2">
-    <a href="{% url 'users:password_change' %}"><button type="button">Change your password</button></a>
-</div>
-</div>
-</div>
 
-
-
-
-
-
-</div>
-{% endif %}
 {% endblock content %}

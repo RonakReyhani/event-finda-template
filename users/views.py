@@ -1,5 +1,5 @@
 from django.contrib.auth import update_session_auth_hash
-from users.forms import (CustomUserChangeForm)
+from users.forms import CustomUserCreationForm, CustomUserChangeForm
 from datetime import datetime
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -8,7 +8,6 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
-from .forms import RegisterForm
 from .models import CustomUser
 from django import forms
 from django.views.decorators.csrf import csrf_protect
@@ -23,74 +22,34 @@ from django.views.generic.edit import FormView
 from django.views.generic import TemplateView
 
 
-def user_register(request):
-    # if this is a POST request we need to process the form data
-    template = 'registration/register.html'
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = RegisterForm(request.POST, request.FILES)
-        # check whether it's valid:
-        if form.is_valid():
+class Register(generic.CreateView):
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'registration/register.html'
 
-            if customUser.objects.filter(email=form.cleaned_data['email']).exists():
-                return render(request, template, {
-                    'form': form,
-                    'error_message': 'Email already exists.'
-                })
-            elif form.cleaned_data['password1'] != form.cleaned_data['password2']:
-                return render(request, template, {
-                    'form': form,
-                    'error_message': 'Passwords do not match.'
-                })
-            else:
-                # Create the user:
-                user = customUser.objects.create_user(
 
-                    form.cleaned_data['email'],
-                    form.cleaned_data['password1']
-                )
-                user.first_name = form.cleaned_data['first_name']
-                user.last_name = form.cleaned_data['last_name']
-                user.save()
+class ProfileView(generic.View):
+    template_name = "registration/profile.html"
+    context_object_name = 'events_list'
 
-                # Login the user
-                login(request, user)
+    def get_queryset(self):
+        '''Return the events.'''
+        return Event.objects.filter(host=self.request.user).order_by('start_time')
 
-                # redirect to accounts page:
-                return HttpResponseRedirect(reverse_lazy('eventFinderApp:index'))
 
-   # No post data availabe, let's just show the page.
-    else:
-        form = RegisterForm()
+class EditProfile(generic.UpdateView):
+    form_class = CustomUserChangeForm
+    success_url = reverse_lazy('eventFinderApp:account')
+    template_name = 'registration/editprofile.html'
 
-    return render(request, template, {'form': form})
+    def get_object(self, queryset=None):
+        return self.request.user
 
 
 def logout_request(request):
     logout(request)
     messages.info(request, " Logged out successfully!")
     return HttpResponseRedirect(reverse_lazy("eventFinderApp:index"))
-
-
-@csrf_protect
-def login_view(request):
-    if request.method == 'POST':
-        form = UsersLoginForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data.get('email')
-            password = form.cleaned_data.get('password')
-            user = authenticate(email=email, password=password)
-            if user is not None:
-                login(request, user)
-                messages.info(
-                    request, f'You are now logged in as {{user.first_name}}')
-                return HttpResponseRedirect(reverse_lazy("eventFinderApp:index"))
-            else:
-                messages.error(request, "Invalid email or password")
-        else:
-            messages.error(request, "Invalid email or password")
-    form = UsersLoginForm()
-    return render(request, "registration/login.html", {'form': form})
 
 
 class PasswordResetView(PasswordContextMixin, FormView):
@@ -111,38 +70,3 @@ class PasswordChangeView(PasswordContextMixin, FormView):
 
 class PasswordChangeDoneView(PasswordContextMixin, TemplateView):
     template_name = 'registration/password_change_done.html'
-
-
-class ProfileView(generic.View):
-    template_name = "registration/view_profile.html"
-
-    def getProfile(self, request):
-        user_form = CustomUserChangeForm(instance=request.user)
-        events_list = Event.objects.filter(created_by=request.user)
-        context = {'events_list': events_list, 'form': user_form}
-        template_name = 'registration/view_profile.html'
-        return render(request, template_name, context)
-
-
-@login_required
-def edit_profile(request):
-    if request.method == 'POST':
-        form = EditProfileForm(request.POST, instance=request.user)
-        # request.FILES is show the selected image or file
-        profile_form = ProfileForm(
-            request.POST, request.FILES, instance=request.user.Profile)
-
-        if form.is_valid() and profile_form.is_valid():
-            user_form = form.save()
-            custom_form = profile_form.save(False)
-            custom_form.user = user_form
-            custom_form.save()
-            return redirect('users:view_profile')
-    else:
-        form = EditProfileForm(instance=request.user)
-        profile_form = ProfileForm(instance=request.user.userprofile)
-        args = {}
-        # args.update(csrf(request))
-        args['form'] = form
-        args['profile_form'] = profile_form
-        return render(request, 'registration/edit_profile.html', args)

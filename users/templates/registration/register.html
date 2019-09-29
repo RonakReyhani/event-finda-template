@@ -5,14 +5,14 @@
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
 
-{{ user_register.media }}
+{{ CustomUserCreationForm.media }}
 
 
 {% block content %}
 <div class="container">
     <div class="d-flex justify-content-center">
 
-        <form action="{% url 'users:user_register' %}" method="post">
+        <form action="" method="post">
             {% csrf_token %}
             <div class="mb-4 border-bottom pb-2">
                 <h2>Join EventFinda</h2>
@@ -43,7 +43,7 @@
         </form>
         <div class="d-flex justify-content-between">
             <input type="button" class="btn btn-secondary" value="Cancel">
-            <input type="submit" value="Register" class="btn btn-success">
+            <input type="submit" value="register" class="btn btn-success">
         </div>
 
         <div class="m-4 border-top p-2">
