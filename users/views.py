@@ -50,23 +50,3 @@ def logout_request(request):
     logout(request)
     messages.info(request, " Logged out successfully!")
     return HttpResponseRedirect(reverse_lazy("eventFinderApp:index"))
-
-
-class PasswordResetView(PasswordContextMixin, FormView):
-    template_name = 'registration/password_reset_form.html'
-
-
-class PasswordResetDoneView(PasswordContextMixin, TemplateView):
-    template_name = 'registration/password_reset_done.html'
-
-
-class PasswordResetConfirmView(PasswordContextMixin, FormView):
-    template_name = 'registration/password_reset_confirm.html'
-
-
-class PasswordChangeView(PasswordContextMixin, FormView):
-    template_name = 'registration/password_change_form.html'
-
-
-class PasswordChangeDoneView(PasswordContextMixin, TemplateView):
-    template_name = 'registration/password_change_done.html'
