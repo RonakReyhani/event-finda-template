@@ -33,6 +33,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls'), name='users'),
     path('users/', include('django.contrib.auth.urls')),
+
     path('api/', include(router.urls)),
     path(r'api-auth-token/', views.obtain_auth_token),
 ]

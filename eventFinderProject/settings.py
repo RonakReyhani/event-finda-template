@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 
 ]
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # SITE_ID = 1
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 BOOTSTRAP4 = {
@@ -148,13 +149,14 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'users.customUser'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',  # existing backend
     # 'allauth.account.auth_backends.AuthenticationBackend',
 )
 LOGIN_REDIRECT_URL = 'eventFinderApp:profile'
-
 LOGOUT_REDIRECT_URL = 'eventFinderApp:index'
 
 

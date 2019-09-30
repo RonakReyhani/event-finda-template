@@ -5,6 +5,10 @@ from .serializers import CustomUserSerializer
 
 
 class CustomUserViewSet(viewsets.ModelViewSet):
-    queryset = CustomUser.objects.all()
+    queryset = CustomUser.objects.all().order_by('email')
     serializer_class = CustomUserSerializer
     permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        user = self.request.user
+        return CustomUser.objects.filter(pk=user.id)
