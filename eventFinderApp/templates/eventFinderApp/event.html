@@ -15,8 +15,8 @@
             <p class="card-text">{{ event.description }}</p>
         </div>
 
-        <div class="card-footer d-flex align-content-between ">
-            <div class="col-md-6">
+        <div class="card-footer d-flex ">
+            <div class="col-md-4 justify-content-center">
                 <div class="card-text row">
                     <p>Starts at: {{ event.start_time|date:"M d, Y" }} -
                         {{event.start_time|time:"h:i A"}}
@@ -27,14 +27,20 @@
                     </p>
                 </div>
             </div>
-            <div class="col-md-6">
+
+            <div class="col-md-4 col-sm-8 d-flex align-items-center justify-content-center ">
                 {% if user.username %}
                 <p>Created by: <a class="text-white" href="{% url 'eventFinderApp:profile' %}">{{ user.username }}</a>
                 </p>
-                <a href="{% url 'eventFinderApp:update-event' %}"><button>Modify Event</button></a>
                 {% endif %}
             </div>
 
+            <div class="d-flex align-items-center  justify-content-around col-md-4 col-sm-8">
+
+                <a href="eventFinderApp/event_update_form.html"><button
+                        class="btn btn-secondary pl-3 pr-3 ml-2">Edit</button></a>
+                <a href="#"><button class="btn btn-secondary">I'm in</button></a>
+            </div>
 
 
         </div>
