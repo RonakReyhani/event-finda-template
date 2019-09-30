@@ -8,6 +8,7 @@ from .models import Event
 from .forms import createEvent
 from django.core.files.storage import FileSystemStorage
 from bootstrap_modal_forms.generic import BSModalLoginView
+from django.views.generic.edit import UpdateView
 
 
 class IndexView(generic.ListView):
@@ -70,7 +71,14 @@ class CreateEventView(generic.View):
         # build the response with our template
         return render(request, self.template, self.form_context(createEvent))
 
- # def CreateEventView(request):
+
+class UpdateEventView(UpdateView):
+    model = Event
+    fields = '__all__'
+    template_name_suffix = '_update_form'
+
+
+# def CreateEventView(request):
 #         if request.method == 'POST':
 #             # POST, generate form with data from the request
 #             form = createEvent(request.POST)

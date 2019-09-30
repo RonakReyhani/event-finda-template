@@ -11,4 +11,5 @@ urlpatterns = [
     path('profile/', views.ProfileView.as_view(), name='profile'),
     # add event-finder/newEvent
     path('createEvent/', views.CreateEventView.as_view(), name='CreateEvent'),
+    path('<int:pk>/edit/', views.UpdateEventView.as_view(), name='update-event'),
 ]

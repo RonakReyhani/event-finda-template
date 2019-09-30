@@ -37,8 +37,8 @@ class UserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-
-    email = models.EmailField(_("email address"), max_length=254, unique=True)
+    username = models.CharField(max_length=50, unique=True)
+    email = models.EmailField(_("email address"), max_length=254)
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
 
@@ -63,7 +63,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     image = models.ImageField(default="default.jpg",
                               upload_to="images/profile_pics", blank=True)
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = []
 

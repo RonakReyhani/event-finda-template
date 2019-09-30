@@ -31,6 +31,7 @@ router.register(r'users', UserViewsets.CustomUserViewSet)
 urlpatterns = [
     path('event-finder/', include('eventFinderApp.urls')),
     path('admin/', admin.site.urls),
+
     path('users/', include('users.urls'), name='users'),
     path('users/', include('django.contrib.auth.urls')),
 
