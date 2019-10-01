@@ -26,8 +26,16 @@ from django.views.generic.base import TemplateView
 #         return Event.objects.filter(created_by=self.request.user).order_by('start_time')
 
 
-class ProfileView(TemplateView):
+class ProfileView(generic.ListView):
     template_name = 'eventFinderApp/profile.html'
+    context_object_name = 'events_list'
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_queryset(self):
+        '''Return the events.'''
+        return Event.objects.filter(created_by=self.request.user).order_by('start_time')
 
 
 # class EditProfile(generic.UpdateView):
@@ -35,16 +43,13 @@ class ProfileView(TemplateView):
 #     success_url = reverse_lazy('eventFinderApp:profile')
 #     template_name = 'registration/editprofile.html'
 
-#     def get_object(self, queryset=None):
-#         return self.request.user
-
 
 @method_decorator(login_required, name='dispatch')
 class ProfileUpdateView(UpdateView):
     model = CustomUser
     fields = ('first_name', 'last_name', 'email', 'image')
     template_name = 'eventFinderApp/edit_profile.html'
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('eventFinderApp:profile')
 
     def get_object(self):
         return self.request.user

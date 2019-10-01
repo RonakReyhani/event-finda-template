@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from django.conf.urls import url
 
+
 app_name = 'eventFinderApp'
 
 urlpatterns = [
@@ -22,4 +23,6 @@ urlpatterns = [
     # path('<int:pk>/edit/', views.UpdateEventView.as_view(), name='update-event'),
     url(r'^(?P<post_pk>\d+)/edit/$',
         views.UpdateEventView.as_view(), name='update-event'),
+
+
 ]

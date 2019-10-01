@@ -4,7 +4,7 @@ from users.models import CustomUser
 from django import forms
 from django.urls import reverse
 from django.core.exceptions import ValidationError
-import datetime
+from datetime import datetime, timezone
 from django.conf import settings
 
 
@@ -39,6 +39,7 @@ class Event(models.Model):
         """Returns the url to access a detail record for this event."""
         return reverse('event', args=[str(self.id)])
 
+    @ property
     def get_cat_values(self):
         ret = ''
         print(self.category.all())
@@ -53,8 +54,8 @@ class Event(models.Model):
         return len(self.description.split())
 
     @property
-    def is_past_event(self):
-        return self.start_time < datetime.now(tz=timezone.utc)
+    def is_not_past_event(self):
+        return self.start_time >= datetime.now(tz=timezone.utc)
 
 
 class DateForm(forms.Form):

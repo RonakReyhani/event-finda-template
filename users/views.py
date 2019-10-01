@@ -1,6 +1,5 @@
 from django.contrib.auth import update_session_auth_hash
 from users.forms import CustomUserCreationForm, CustomUserChangeForm
-from datetime import datetime
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm

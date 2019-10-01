@@ -29,7 +29,7 @@
                     {{event.start_time|time:"h:i A"}}
                 </p>
                 {% if event.created_by.username %}
-                <p><a href="{% url 'eventFinderApp:profile' created_by.id %}"> Created by:
+                <p><a href="{% url 'eventFinderApp:profile'%}"> Created by:
                         {{ event.created_by.username }}</a></p>
                 {% endif %}
                 <p>{{ event.get_cat_values }}</p>
