@@ -1,43 +1,44 @@
-{% extends "base.html" %}
+{% extends "./base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
 
-
-<div class="content-section">
-    <div class="media">
-        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
-        <div class="media-body">
-            <h2 class="account-heading">First name: {{ user.first_name }}</h2>
-            <p class="text-secondary">{{ user.last_name }}</p>
-            <p class="text-secondary">{{ user.email }}</p>
+<div class="container">
+    <div class="content-section">
+        <div class="media">
+            <img class="rounded-circle account-img" src="{{ user.image.url }}">
+            <div class="media-body">
+                <h2 class="account-heading">First name: {{ user.first_name }}</h2>
+                <p class="text-secondary">{{ user.last_name }}</p>
+                <p class="text-secondary">{{ user.email }}</p>
+            </div>
         </div>
-    </div>
 
-    <div class="container">
-        {% if user.is_authenticated %}
-        <div class="row">
-            <div class="col-md-2">
-                <a href="{% url 'users:editprofile' %}"><button type="button">Edit your Profile</button></a>
+        <div class="container">
+            {% if user.is_authenticated %}
+            <div class="row">
+                <div class="col-md-2">
+                    <a href="{% url 'eventFinderApp:editprofile' user.pk %}"><button type="button">Edit your
+                            Profile</button></a>
+                </div>
+                <div class="col-md-2">
+                    <a href="{% url 'users:password_change' %}"><button type="button">Change your password</button></a>
+                </div>
+                {% else %}
+                <p><a href="{% url 'login' %}">Login to edit this profile</a></p>
+                {% endif %}
+
             </div>
-            <div class="col-md-2">
-                <a href="{% url 'users:password_change' %}"><button type="button">Change your password</button></a>
-            </div>
+            <h3>Your events:</h3>
+            {% if events_list %}
+            {% for event in events_list %}
+            {% include "./detailsBox.html" with event=event %}
+            {% endfor %}
+
             {% else %}
-            <p><a href="{% url 'login' %}">Login to edit this profile</a></p>
+            <p>You aren't hosting any events</p>
             {% endif %}
 
         </div>
-        <h3>Your events:</h3>
-        {% if events_list %}
-        {% for event in events_list %}
-        {% include "./detailsBox.html" with event=event %}
-        {% endfor %}
-
-        {% else %}
-        <p>You aren't hosting any events</p>
-        {% endif %}
-
     </div>
 </div>
-
 {% endblock content %}

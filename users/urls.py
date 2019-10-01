@@ -11,7 +11,8 @@ urlpatterns = [
 
 
     path('register/', views.Register.as_view(), name='register'),
-    url(r'^editProfile/<int:pk>$', views.EditProfile.as_view(), name='editprofile'),
+    # path('<int:pk>/', views.EditProfile.as_view(), name='editprofile'),
+    # url(r'^editProfile/<int:pk>$', views.EditProfile.as_view(), name='editprofile'),
     url(r'^logout/$', views.logout_request, name='logout'),
     # url(r'^login/$', views.login_view, name="login"),
     path(

@@ -165,7 +165,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',  # existing backend
     # 'allauth.account.auth_backends.AuthenticationBackend',
 )
-LOGIN_REDIRECT_URL = 'eventFinderApp:profile'
+LOGIN_REDIRECT_URL = 'eventFinderApp:index'
 LOGOUT_REDIRECT_URL = 'eventFinderApp:index'
 
 

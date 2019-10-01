@@ -21,6 +21,7 @@ class Category(models.Model):
 class Event(models.Model):
     title = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
+    short_description = models.CharField(max_length=100, default='Description')
     description = models.TextField(
         null=True, help_text="Please add details about your event here")
     start_time = models.DateTimeField('start time and date', null=True)
@@ -51,6 +52,10 @@ class Event(models.Model):
         """Return the number of words."""
         return len(self.description.split())
 
+    @property
+    def is_past_event(self):
+        return self.start_time < datetime.now(tz=timezone.utc)
+
 
 class DateForm(forms.Form):
     date = forms.DateTimeField(
@@ -60,12 +65,3 @@ class DateForm(forms.Form):
             'data-target': '#datetimepicker1'
         })
     )
-# def present_or_future_date(value):
-#         if value < datetime.date.today():
-#             raise ValidationError("The event date cannot be in the past!")
-#         return value
-
-# def end_before_start(value1,value2):
-#     if value2 < value1:
-#         raise ValidationError("The End date cannot be before event start time ")
-#     return value2

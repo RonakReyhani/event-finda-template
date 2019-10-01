@@ -12,7 +12,7 @@
 <div class="container">
     <div class="d-flex justify-content-center">
 
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="mb-4 border-bottom pb-2">
                 <h2>Join EventFinda</h2>
@@ -23,19 +23,7 @@
                 {% if error_message %}
                 <p class="bg-danger p-d ml-b">{{ error_message }}</p>
                 {% endif %}
-
-                <div class="row">
-                    <div class="col-6">
-                        {{ form.first_name|as_crispy_field }}
-                    </div>
-                    <div class="col-6">
-                        {{ form.last_name|as_crispy_field }}
-                    </div>
-                </div>
-                {{ form.email|as_crispy_field }}
-                {{ form.password1|as_crispy_field }}
-                {{ form.password2|as_crispy_field }}
-                {{ form.image|as_crispy_field }}
+                {{form|crispy}}
 
 
 

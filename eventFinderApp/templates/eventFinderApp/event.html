@@ -30,15 +30,17 @@
 
             <div class="col-md-4 col-sm-8 d-flex align-items-center justify-content-center ">
                 {% if user.username %}
-                <p>Created by: <a class="text-white" href="{% url 'eventFinderApp:profile' %}">{{ user.username }}</a>
+                <p>Created by: <a class="text-white"
+                        href="{% url 'eventFinderApp:profile' user.id %}">{{ user.username }}</a>
                 </p>
                 {% endif %}
             </div>
 
             <div class="d-flex align-items-center  justify-content-around col-md-4 col-sm-8">
-
-                <a href="eventFinderApp/event_update_form.html"><button
+                {% if event.created_by == user %}
+                <a href="{% url 'update-event' event.pk %}"><button
                         class="btn btn-secondary pl-3 pr-3 ml-2">Edit</button></a>
+                {% endif %}
                 <a href="#"><button class="btn btn-secondary">I'm in</button></a>
             </div>
 

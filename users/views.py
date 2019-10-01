@@ -28,15 +28,6 @@ class Register(generic.CreateView):
     template_name = 'registration/register.html'
 
 
-class EditProfile(generic.UpdateView):
-    form_class = CustomUserChangeForm
-    success_url = reverse_lazy('eventFinderApp:account')
-    template_name = 'registration/editprofile.html'
-
-    def get_object(self, queryset=None):
-        return self.request.user
-
-
 def logout_request(request):
     logout(request)
     messages.info(request, " Logged out successfully!")

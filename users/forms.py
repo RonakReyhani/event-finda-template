@@ -6,9 +6,10 @@ from django import forms
 
 
 class CustomUserCreationForm(UserCreationForm):
+
     class Meta(UserCreationForm):
         model = CustomUser
-        fields = "__all__"
+        fields = ('username', 'email', 'first_name', 'last_name')
 
 
 class CustomUserChangeForm(UserChangeForm):
@@ -16,3 +17,9 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
         fields = "__all__"
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'email')
