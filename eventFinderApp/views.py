@@ -56,24 +56,25 @@ class ProfileUpdateView(UpdateView):
 
 
 class IndexView(generic.ListView):
+    model = Event
     template_name = 'eventFinderApp/index.html'
     context_object_name = 'events_list'
     paginate_by = 6
 
-    def get_context_data(self, **kwargs):
-        kwargs['event'] = self.Event
-        return super().get_context_data(**kwargs)
-
-    def get_queryset(self):
-        self.event = get_object_or_404(
-            Event, pk=self.kwargs.get('pk'))
-        queryset = self.Event.order_by(
-            'start_time').annotate(replies=Count('event') - 1)
-        return queryset
+    # def get_context_data(self, **kwargs):
+    #     kwargs['event'] = self.Event
+    #     return super().get_context_data(**kwargs)
 
     # def get_queryset(self):
-    #     '''Return the events.'''
-    #     return Event.objects.all()
+    #     self.event = get_object_or_404(
+    #         Event, pk=self.kwargs.get('pk'))
+    #     queryset = self.Event.objects.order_by(
+    #         'start_time').annotate(replies=Count('event') - 1)
+    #     return queryset
+
+    def get_queryset(self):
+        '''Return the events.'''
+        return Event.objects.all()
 
 
 class EventView(generic.DetailView):
