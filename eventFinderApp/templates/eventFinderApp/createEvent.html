@@ -1,27 +1,65 @@
 {% extends "./base.html" %}
-{% load crispy_forms_tags %}
 
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+
+{{ CreateEventView.media }}
 {% block content %}
-<form method="post">
+<div class="container">
+  <form method="post" enctype="multipart/form-data">
+
     {% csrf_token %}
-    {{ createEvent|crispy }}
-    <input type="submit" value="Submit form">
-    
-  </form>
-  <script type="text/javascript">
-    $(function () {
+    {{createEvent|crispy}}
+    <!-- 
+    <div class="container">
+      <div class="row">
+        <div class='col-md-5'>
+          <div class="form-group">
+            <div class="input-group date" id="datetimepicker7" data-target-input="nearest">
+              {{createEvent.start_time}}
+              <div class="input-group-append" data-target="#datetimepicker7" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class='col-md-5'>
+          <div class="form-group">
+            <div class="input-group date" id="datetimepicker8" data-target-input="nearest">
+              {{createEvent.end_time}}
+              <div class="input-group-append" data-target="#datetimepicker8" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    {% buttons %}
+    <input type="submit" value="Submit Event">
+    {% endbuttons %}
+
+    <script type="text/javascript">
+      $(function () {
         $('#datetimepicker7').datetimepicker();
         $('#datetimepicker8').datetimepicker({
-            useCurrent: false
+          useCurrent: false
         });
         $("#datetimepicker7").on("change.datetimepicker", function (e) {
-            $('#datetimepicker8').datetimepicker('minDate', e.date);
+          $('#datetimepicker8').datetimepicker('minDate', e.date);
         });
         $("#datetimepicker8").on("change.datetimepicker", function (e) {
-            $('#datetimepicker7').datetimepicker('maxDate', e.date);
+          $('#datetimepicker7').datetimepicker('maxDate', e.date);
         });
-    });
-</script>
+      });
+    </script>
+  </form>
+</div>
+
+
 {% endblock %}
 
 
@@ -58,5 +96,3 @@
       </form>
 
  -->
-
-    
