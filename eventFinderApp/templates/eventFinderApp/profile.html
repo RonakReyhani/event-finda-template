@@ -30,49 +30,44 @@
             </div>
         </div>
     </div>
+</div>
 
-    <div class="container">
-        {% if user.is_authenticated %}
-        <div class="row  mb-4">
-            <div class="col-md-6 col-sm-8 d-flex justify-content-center">
-                <span>You can modify your profile detail here :</span>
-                <a href="{% url 'eventFinderApp:editprofile' user.pk %}">Edit your
-                    Profile</a>
+
+
+<div class="container shadow bg-light">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-2 h-100 col-sm-2 border-secondary border-right mt-5 ">
+
+            {% include './sideNav.html' %}
+        </div>
+
+        <div calss="col-md-8 col-sm-6 ml-5">
+            <div class="row d-flex justify-content-center mt-5">
+                <h3>Your upcomming events</h3>
             </div>
-            <div class="col-md-6 col-sm-8 d-flex justify-content-center">
-                <span>Do you need to set a new password :</span>
-                <a href="{% url 'users:password_change' %}">Change your password</a>
+            <div class="row d-flex justify-content-around">
+                {% if events_list %}
+                {% for event in events_list %}
+
+                <div class=" col-md-5 col-sm-8 style=" margin-top: 1%">
+                    {% if event.is_not_past_event %}
+                    {% include "./detailsBox.html" with event=event %}
+
+                    {% endif %}
+                </div>
+
+                {% if forloop.counter|divisibleby:3 %}
+
             </div>
-            {% else %}
-            <p><a href="{% url 'login' %}">Login to edit this profile</a></p>
-            {% endif %}
+            <div class="row">
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <p>You don't have any past events.</p>
+                {% endif %}
+            </div>
         </div>
     </div>
-
-
-    <div class="container shadow bg-light">
-        <div calss="col-md-6 d-flex justify-content-center">
-            <h3>Manage Your events:</h3>
-        </div>
-        <div class="">
-            {% if events_list %}
-            {% for event in events_list %}
-            {% if event.is_not_past_event %}
-            <p> Your upcomming events: </p>
-            {% include "./detailsBox.html" with event=event %}
-            {% else %}
-            <p>Previous events hosted by you:</p>
-            {% endif %}
-            {% endfor %}
-            {% else %}
-            <p>You don't have any past events.</p>
-
-            {% endif %}
-
-        </div>
-    </div>
-
 </div>
-</div>
-</div>
+
 {% endblock content %}

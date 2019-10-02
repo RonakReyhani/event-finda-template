@@ -62,19 +62,26 @@ class IndexView(generic.ListView):
     paginate_by = 6
 
     # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     list_films = Film.objects.all()
+    #     paginator = Paginator(list_films, self.paginate_by)
+
+    #     page = self.request.GET.get('page')
+    # def get_context_data(self, **kwargs):
     #     kwargs['event'] = self.Event
     #     return super().get_context_data(**kwargs)
 
     # def get_queryset(self):
     #     self.event = get_object_or_404(
     #         Event, pk=self.kwargs.get('pk'))
-    #     queryset = self.Event.objects.order_by(
+    #     queryset = self.event.objects.all().order_by(
     #         'start_time').annotate(replies=Count('event') - 1)
     #     return queryset
 
     def get_queryset(self):
         '''Return the events.'''
-        return Event.objects.all()
+        return Event.objects.all().order_by(
+            'start_time')
 
 
 class EventView(generic.DetailView):
@@ -126,47 +133,36 @@ class CreateEventView(generic.View):
 
 
 @method_decorator(login_required, name='dispatch')
-class UpdateEventView(UpdateView):
+class EditEventView(generic.UpdateView):
     model = Event
-    fields = '__all__'
-    template_name = 'event_update_form.html'
-    pk_url_kwarg = 'event_pk'
-    context_object_name = 'event'
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.filter(created_by=self.request.user)
-
-    def form_valid(self, form):
-        event = form.save(commit=False)
-        event.updated_by = self.request.user
-        event.updated_at = timezone.now()
-        event.save()
-        return redirect('users:profile', pk=post.topic.board.pk, topic_pk=post.topic.pk)
+    form_class = createEvent
+    success_url = reverse_lazy('eventFinderApp:profile')
+    template_name = 'eventFinderApp/editEvent.html'
 
 
-# def CreateEventView(request):
+@login_required
+def event_remove(request, event_id):
+    event = Event.objects.get(pk=event_id)
+    if request.user == event.created_by:
+        Event.objects.filter(id=event_id).delete()
+        return redirect('eventFinderApp:profile')
+
+
+# @login_required
+# def event_edit(request, post_id):
+#     event = Event.objects.get(pk=event_id)
+#     if request.user == event.created_by:
 #         if request.method == 'POST':
-#             # POST, generate form with data from the request
-#             form = createEvent(request.POST)
-#             # check if it's valid:
+#             form = createEvent(request.POST, instance=event)
 #             if form.is_valid():
-#                 # process data, insert into DB, generate email,etc
-#                 # redirect to a new url:
 #                 form.save()
-#                 return HttpResponseRedirect('eventFinderApp/index.html')
-#         else:
-#             # GET, generate blank form
-#             form = createEvent()
-#         return render(request,'eventFinderApp/createEvent.html',{'form':form})
-#
-#
+#                 return redirect('eventFinderApp:profile')
 
-# class AddEventCreateView(generic.CreateView):
-#     # using the create view we can just give it the variables
-#     # as the functionaity is already built in!
-#     form_class = EventForm
-#     template_name = 'eventFinderApp/addevent.html'
-#     success_url = reverse_lazy('eventFinderApp:index')
-#     # we have to use reverse_lazy so that urls.py can load our class
-#     # and not get stuck in a recursive loop
+#         else:
+#             form = createEvent(instance=event)
+
+#     args = {}
+#     args.update(csrf(request))
+#     args['form'] = form
+
+#     return render_to_response('eventFinderApp/event_update_form.html', args)
