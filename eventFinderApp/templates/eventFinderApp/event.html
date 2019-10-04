@@ -29,9 +29,9 @@
             </div>
 
             <div class="col-md-4 col-sm-8 d-flex align-items-center justify-content-center ">
-                {% if user.username %}
+                {% if event.host.username %}
                 <p>Created by: <a class="text-white"
-                        href="{% url 'eventFinderApp:profile' user.id %}">{{ user.username }}</a>
+                        href="{% url 'eventFinderApp:profile' event.host.pk%}">{{ event.host.username }}</a>
                 </p>
                 {% endif %}
             </div>

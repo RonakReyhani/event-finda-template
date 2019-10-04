@@ -1,7 +1,7 @@
 {% extends "./base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-
+{% if user.pk == event.host.pk %}
 <div class="container">
     <div class="row mb-5 bg-light p-2 shadow">
 
@@ -14,7 +14,7 @@
 
             <div class="media-body">
                 <div class=row>
-                    <h2 class="account-heading"> '{{ user.username|upper }}!' welcome your Event Finder account </h2>
+                    <h2 class="account-heading"> '{{ user.username|upper }}!' welcome to your Event Finder account </h2>
                 </div>
                 <div class=" col-md-6 mt-5">
                     {% if user.last_name %}
@@ -36,16 +36,77 @@
 
 <div class="container shadow bg-light">
     <div class="row d-flex justify-content-center">
+
         <div class="col-md-2 h-100 col-sm-2 border-secondary border-right mt-5 ">
 
             {% include './sideNav.html' %}
         </div>
 
-        <div calss="col-md-8 col-sm-6 ml-5">
+        <div calss="col-md-8 col-sm-4 ml-5">
             <div class="row d-flex justify-content-center mt-5">
                 <h3>Your upcomming events</h3>
             </div>
-            <div class="row d-flex justify-content-around">
+            <div class="row ">
+                {% if events_list %}
+                {% for event in events_list %}
+
+                <div class=" col-md-5 col-sm-8 style=" margin-top: 1%">
+                    {% if event.is_not_past_event %}
+                    {% include "./detailsBox.html" with event=event %}
+
+                    {% endif %}
+                </div>
+
+                {% if forloop.counter|divisibleby:3 %}
+
+            </div>
+            <div class="row">
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <p>You don't have any past events.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container">
+    <div class="row mb-5 bg-light p-2 shadow">
+
+        <div class="media">
+            <div class="col-md-4">
+                <img class="rounded-circle account-img" src="{{ event.host.image.url }}">
+            </div>
+        </div>
+        <div class="col-md-8 d-flex justify-content-center">
+
+            <div class="media-body">
+                <div class=row>
+                    <h2 class="account-heading"> Welcome to {{ event.host.username|upper }} Event Finder account </h2>
+                </div>
+                <div class=" col-md-6 mt-5">
+                    {% if event.host.last_name %}
+                    <p class="text-secondary">First Name: {{ event.host.first_name }}</p>
+                    {% endif %}
+                    {% if event.host.last_name %}
+                    <p class="text-secondary">Surname: {{ event.host.last_name }}</p>
+                    {% endif %}
+                    {% if event.host.email %}
+                    <p class="text-secondary"> Email Address: {{ event.host.email }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container shadow bg-light">
+    <div class="row d-flex justify-content-center">
+        <div calss="col-md-8 col-sm-4 ml-5">
+            <div class="row d-flex justify-content-center mt-5">
+                <h3>{{event.host.username}} upcomming events</h3>
+            </div>
+            <div class="row ">
                 {% if events_list %}
                 {% for event in events_list %}
 
@@ -70,4 +131,5 @@
     </div>
 </div>
 
+{% endif %}
 {% endblock content %}

@@ -18,7 +18,7 @@
                         {% endif %}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
-                        <a class="dropdown-item" href="{% url 'eventFinderApp:profile'%}">My account</a>
+                        <a class="dropdown-item" href="{% url 'eventFinderApp:profile' user.pk %}">My account</a>
                         <a class="dropdown-item" href="{% url 'eventFinderApp:CreateEvent' %}">Create new
                             event</a>
                         <div class="dropdown-divider"></div>

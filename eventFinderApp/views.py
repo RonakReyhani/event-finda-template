@@ -16,32 +16,27 @@ from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 
 from django.views.generic.base import TemplateView
-# class ProfileView(generic.DetailView):
-#     model = CustomUser
-#     template_name = "profile.html"
-#     context_object_name = 'profile_view'
+
+
+# class ProfileView(generic.ListView):
+#     template_name = 'eventFinderApp/profile.html'
+#     context_object_name = 'events_list'
+
+#     def get_object(self, queryset=None):
+#         return self.request.user
 
 #     def get_queryset(self):
 #         '''Return the events.'''
 #         return Event.objects.filter(created_by=self.request.user).order_by('start_time')
 
+class ProfileView(generic.DetailView):
+    model = CustomUser
+    template_name = "eventFinderApp/profile.html"
+    context_object_name = 'profile_view'
 
-class ProfileView(generic.ListView):
-    template_name = 'eventFinderApp/profile.html'
-    context_object_name = 'events_list'
-
-    def get_object(self, queryset=None):
-        return self.request.user
-
-    def get_queryset(self):
-        '''Return the events.'''
-        return Event.objects.filter(created_by=self.request.user).order_by('start_time')
-
-
-# class EditProfile(generic.UpdateView):
-#     form_class = CustomUserChangeForm
-#     success_url = reverse_lazy('eventFinderApp:profile')
-#     template_name = 'registration/editprofile.html'
+    # def get_queryset(self):
+    #     '''Return the events.'''
+    #     return Event.objects.filter(host=self.request.user).order_by('start_time')
 
 
 @method_decorator(login_required, name='dispatch')
@@ -61,23 +56,6 @@ class IndexView(generic.ListView):
     context_object_name = 'events_list'
     paginate_by = 6
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     list_films = Film.objects.all()
-    #     paginator = Paginator(list_films, self.paginate_by)
-
-    #     page = self.request.GET.get('page')
-    # def get_context_data(self, **kwargs):
-    #     kwargs['event'] = self.Event
-    #     return super().get_context_data(**kwargs)
-
-    # def get_queryset(self):
-    #     self.event = get_object_or_404(
-    #         Event, pk=self.kwargs.get('pk'))
-    #     queryset = self.event.objects.all().order_by(
-    #         'start_time').annotate(replies=Count('event') - 1)
-    #     return queryset
-
     def get_queryset(self):
         '''Return the events.'''
         return Event.objects.all().order_by(
@@ -87,11 +65,6 @@ class IndexView(generic.ListView):
 class EventView(generic.DetailView):
     model = Event
     template_name = 'eventFinderApp/event.html'
-
-
-# def Profile(request):
-#     accountform = ProfileForm()
-#     return render(request, 'eventFinderApp/profile.html', {'accountform': accountform})
 
 
 class CreateEventView(generic.View):
@@ -122,7 +95,7 @@ class CreateEventView(generic.View):
             raise Http404
         if createEvent.is_valid():
             instance = createEvent.save(commit=False)
-            instance.created_by = request.user
+            instance.host = request.user
             instance.save()
 
             # redirect to the list of events
@@ -143,26 +116,6 @@ class EditEventView(generic.UpdateView):
 @login_required
 def event_remove(request, event_id):
     event = Event.objects.get(pk=event_id)
-    if request.user == event.created_by:
+    if request.user == event.host:
         Event.objects.filter(id=event_id).delete()
         return redirect('eventFinderApp:profile')
-
-
-# @login_required
-# def event_edit(request, post_id):
-#     event = Event.objects.get(pk=event_id)
-#     if request.user == event.created_by:
-#         if request.method == 'POST':
-#             form = createEvent(request.POST, instance=event)
-#             if form.is_valid():
-#                 form.save()
-#                 return redirect('eventFinderApp:profile')
-
-#         else:
-#             form = createEvent(instance=event)
-
-#     args = {}
-#     args.update(csrf(request))
-#     args['form'] = form
-
-#     return render_to_response('eventFinderApp/event_update_form.html', args)

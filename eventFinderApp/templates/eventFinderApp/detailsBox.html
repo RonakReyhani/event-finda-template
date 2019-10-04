@@ -28,9 +28,9 @@
                 <p>Starts at: {{ event.start_time|date:"M d, Y" }} -
                     {{event.start_time|time:"h:i A"}}
                 </p>
-                {% if event.created_by.username %}
-                <p><a href="{% url 'eventFinderApp:profile'%}"> Created by:
-                        {{ event.created_by.username }}</a></p>
+                {% if event.host.username %}
+                <p><a href="{% url 'eventFinderApp:profile' event.host.pk %}"> Created by:
+                        {{ event.host.username }}</a></p>
                 {% endif %}
                 <p>{{ event.get_cat_values }}</p>
                 <a href="{% url 'eventFinderApp:event' event.id %}" class="btn btn-info">Read More</a>
