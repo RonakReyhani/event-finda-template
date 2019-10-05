@@ -1,2 +1,12 @@
 django==2.2
 psycopg2==2.8.3
+django-storages==1.7
+boto3==1.9
+django-crispy-forms
+django-bootstrap4
+django-bootstrap-datepicker-plus
+django-bootstrap-modal-forms
+django-jquery
+django-widget-tweaks
+# django-allauth
+djangorestframework==3.10.3
