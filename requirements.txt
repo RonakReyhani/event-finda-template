@@ -1,10 +1,7 @@
 django==2.2
 psycopg2==2.8.3
-<<<<<<< HEAD
 django-storages==1.7
 boto3==1.9
-=======
->>>>>>> cc69c1863c15a4c3a11e5ce7f022be311acc4226
 django-crispy-forms
 django-bootstrap4
 django-bootstrap-datepicker-plus
