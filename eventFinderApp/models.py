@@ -1,20 +1,16 @@
 from django.db import models
+# from django.contrib.auth.models import User
+from users.models import CustomUser
 from django import forms
 from django.urls import reverse
 from django.core.exceptions import ValidationError
-import datetime
+from datetime import datetime, timezone
+from django.conf import settings
 
-class Users(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-
-    def get_absolute_url(self):
-        """Returns the url to access a particular author instance."""
-        return reverse('user-profile', args=[str(self.id)])
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
-    
+
     class Meta:
         ordering = ('name',)
 
@@ -25,18 +21,25 @@ class Category(models.Model):
 class Event(models.Model):
     title = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
-    description = models.TextField(null=True,help_text="Please add details about your event here")
-    start_time = models.DateTimeField('start time and date' )
-    end_time = models.DateTimeField('end time and date')
-    category = models.ManyToManyField(Category ,help_text='Select a category for this event')
-    
+    short_description = models.CharField(max_length=100, default='Description')
+    description = models.TextField(
+        null=True, help_text="Please add details about your event here")
+    start_time = models.DateTimeField('start time and date', null=True)
+    end_time = models.DateTimeField('end time and date', null=True)
+    category = models.ManyToManyField(
+        Category, help_text='Select a category for this event')
+    event_image = models.ImageField(upload_to='images/', null=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='created_by')
+
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this event."""
-        return reverse('event', args=[str(self.id)])  
+        return reverse('event', args=[str(self.id)])
 
+    @ property
     def get_cat_values(self):
         ret = ''
         print(self.category.all())
@@ -46,6 +49,13 @@ class Event(models.Model):
         # remove the last ',' and return the value.
         return ret[:-1]
 
+    def wordcount(self, description):
+        """Return the number of words."""
+        return len(self.description.split())
+
+    @property
+    def is_not_past_event(self):
+        return self.start_time >= datetime.now(tz=timezone.utc)
 
 
 class DateForm(forms.Form):
@@ -55,16 +65,4 @@ class DateForm(forms.Form):
             'class': 'form-control datetimepicker-input',
             'data-target': '#datetimepicker1'
         })
-    )       
-# def present_or_future_date(value):
-#         if value < datetime.date.today():
-#             raise ValidationError("The event date cannot be in the past!")
-#         return value
-
-# def end_before_start(value1,value2):
-#     if value2 < value1:
-#         raise ValidationError("The End date cannot be before event start time ") 
-#     return value2
-
-    
-
+    )

@@ -42,14 +42,34 @@ except:
 # Application definition
 
 INSTALLED_APPS = [
-    'eventFinderApp.apps.EventfinderappConfig',
+    'users',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'eventFinderApp.apps.EventfinderappConfig',
+    'crispy_forms',
+    'bootstrap4',
+    'bootstrap_datepicker_plus',
+    # 'bootstrap_modal_forms',
+    'jquery',
+    # 'category',
+    # 'django.contrib.sites',
+    'widget_tweaks',
+
+    'rest_framework',
+    'rest_framework.authtoken',
+
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# SITE_ID = 1
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -59,6 +79,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'eventFinderProject.urls'
@@ -74,6 +95,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -88,7 +110,11 @@ WSGI_APPLICATION = 'eventFinderProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+<<<<<<< HEAD
         'NAME': 'myeventfinder',  # you will need to create this db
+=======
+        'NAME': 'eventfinder',  # you will need to create this db
+>>>>>>> cc69c1863c15a4c3a11e5ce7f022be311acc4226
         'USER': '',  # enter your user name here
         'PASSWORD': '',
         'HOST': 'localhost',
@@ -143,6 +169,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+<<<<<<< HEAD
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 if 'S3_BUCKET' in os.environ:
@@ -153,3 +180,40 @@ if 'S3_BUCKET' in os.environ:
     # define the AWS S3 bucket to use for storage
     AWS_STORAGE_BUCKET_NAME = os.environ['S3_BUCKET']
     AWS_DEFAULT_ACL = 'public-read'
+=======
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+AUTH_USER_MODEL = 'users.customUser'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+
+
+# usermanager/settings.py
+EMAIL_HOST = ''
+EMAIL_PORT = 587
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = ''
+
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # existing backend
+    # 'allauth.account.auth_backends.AuthenticationBackend',
+)
+LOGIN_REDIRECT_URL = 'eventFinderApp:index'
+LOGOUT_REDIRECT_URL = 'eventFinderApp:index'
+
+
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_USERNAME_REQUIRED = False
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
+>>>>>>> cc69c1863c15a4c3a11e5ce7f022be311acc4226
