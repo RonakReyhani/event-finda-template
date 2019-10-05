@@ -109,12 +109,8 @@ WSGI_APPLICATION = 'eventFinderProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-<<<<<<< HEAD
-        'NAME': 'myeventfinder',  # you will need to create this db
-=======
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',  # you will ne
         'NAME': 'eventfinder',  # you will need to create this db
->>>>>>> cc69c1863c15a4c3a11e5ce7f022be311acc4226
         'USER': '',  # enter your user name here
         'PASSWORD': '',
         'HOST': 'localhost',
@@ -169,7 +165,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-<<<<<<< HEAD
+<< << << < HEAD
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 if 'S3_BUCKET' in os.environ:
@@ -180,7 +176,7 @@ if 'S3_BUCKET' in os.environ:
     # define the AWS S3 bucket to use for storage
     AWS_STORAGE_BUCKET_NAME = os.environ['S3_BUCKET']
     AWS_DEFAULT_ACL = 'public-read'
-=======
+== == == =
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -216,4 +212,4 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ]
 }
->>>>>>> cc69c1863c15a4c3a11e5ce7f022be311acc4226
+>>>>>> > cc69c1863c15a4c3a11e5ce7f022be311acc4226
