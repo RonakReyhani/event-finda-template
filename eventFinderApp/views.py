@@ -148,13 +148,23 @@ class CreateEventView(generic.View):
         return render(request, self.template, self.form_context(createEvent))
 
 
-class EditEvent(generic.UpdateView):
+class EditEventView(generic.UpdateView):
     model = Event
     form_class = createEvent
-    template_name = 'eventFinderApp/createEvent.html'
+    template_name = 'eventFinderApp/editEvent.html'
     success_url = reverse_lazy('eventFinderApp:index')
     context_object_name = 'name'
 
     def get_queryset(self):
         # only allow logged in user to edit their own events
-        return self.model.objects.filter(host=self.request.user)
+        return self.model.objects.filter(created_by=self.request.user)
+
+
+class DeleteEventView(generic.DeleteView):
+    model = Event
+    success_url = reverse_lazy('eventFinderApp:account')
+    template_name = 'eventFinderApp/deleteEvent.html'
+
+    def get_queryset(self):
+        # only allow logged in user to edit their own events
+        return self.model.objects.filter(created_by=self.request.user)

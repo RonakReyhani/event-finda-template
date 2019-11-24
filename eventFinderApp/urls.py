@@ -6,15 +6,17 @@ app_name = 'eventFinderApp'
 urlpatterns = [
     # event-finder/
     path('', views.IndexView.as_view(), name='index'),
-    # event-finder/1
-    path('<int:pk>/', views.EventView.as_view(), name='event'),
     # event-finder/my-account
     path('account/', views.account, name='account'),
-
-    path('createEvent/', views.CreateEventView.as_view(), name='CreateEvent'),
     # update profile
     path('profile/<int:pk>/edit/',
          views.ProfileUpdateView.as_view(), name='editprofile'),
+    # createEvent
+    path('<int:pk>/', views.EventView.as_view(), name='event'),
+    path('createEvent/', views.CreateEventView.as_view(), name='CreateEvent'),
+    path('editEvent/<int:pk>', views.EditEventView.as_view(), name='editevent'),
+    # delete event
+    path('deleteEvent/<int:pk>', views.DeleteEventView.as_view(), name='deleteEvent')
 
 ]
 
