@@ -1,33 +1,23 @@
 {% extends "eventFinderApp/base.html" %}
 {% load crispy_forms_tags %}
-
 {% load bootstrap4 %}
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
-
 {{ CustomUserCreationForm.media }}
-
-
 {% block content %}
-<div class="container">
-    <div class="d-flex justify-content-center">
 
+<div class="container" style="height:100%">
+    <div class="row justify-content-center mt-5">
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="mb-4 border-bottom pb-2">
                 <h2>Join EventFinda</h2>
             </div>
-
-
             <div class="panel-body">
                 {% if error_message %}
                 <p class="bg-danger p-d ml-b">{{ error_message }}</p>
                 {% endif %}
                 {{form|crispy}}
-
-
-
-
         </form>
         <div class="d-flex justify-content-between">
             <input type="button" class="btn btn-secondary" value="Cancel">
@@ -38,5 +28,6 @@
             Already have an account? <a href="{% url 'login' %}">Log in</a>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

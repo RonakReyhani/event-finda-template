@@ -41,12 +41,12 @@
         <a href="#"><button class="btn btn-secondary mr-3">I'm in</button></a>
         {% if user.is_authenticated %}
         {% if user.pk == event.created_by.pk %}
-        <a href="{% url 'eventFinderApp:editevent' event.id %}"><button> Edit details</button></a>
-        {% else %}
-        <p>Contact {{event.created_by}} if you would like to change event details</p>
+        <a href="{% url 'eventFinderApp:editevent' event.id %}"><button class="btn btn-secondary ml-3"> Edit
+            details</button></a>
+
         {% endif %}
         {% else %}
-        <p><a href="{% url 'login' %}">Login to edit this event</a></p>
+        <p><a href=" {% url 'login' %}">Login to edit this event</a></p>
         {% endif %}
       </div>
     </div>
