@@ -10,8 +10,6 @@
   <meta name="description" content="eventFinderApp" />
   <meta name="author" content="Nadia Reyhani" />
   <link href="https://fonts.googleapis.com/css?family=Manjari&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
   <!-- Font Awesome -->
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
     integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
@@ -49,7 +47,7 @@
 </head>
 
 <body>
-  <header>
+  <header style="margin-bottom: 0px;">
     <div>
       {% include './nav.html' %}
     </div>
@@ -58,11 +56,9 @@
   {% block content %}
   {% endblock %}
 
-  <footer>
+  <footer style="width: 100%;">
     <div class="navbar navbar-dark bg-dark navbar-inverse navbar-static-bottom" role="navigation">
-      <div class="navbar-text pull-right">
-
-
+      <div class="navbar-text pull-right" style="margin-left: 30px">
         <a href=""><i class="fa fa-instagram fa-2x" aria-hidden="true"></i></a>
         <a href=""><i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i></a>
         <a href=""><i class="fa fa-twitter-square fa-2x" aria-hidden=" true"></i></a>

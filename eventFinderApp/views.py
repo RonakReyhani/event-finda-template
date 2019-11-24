@@ -63,7 +63,7 @@ class ProfileUpdateView(UpdateView):
     model = CustomUser
     fields = ('first_name', 'last_name', 'email', 'image')
     template_name = 'eventFinderApp/edit_profile.html'
-    success_url = reverse_lazy('eventFindeApp:AccountView')
+    success_url = reverse_lazy('eventFinderApp:account')
 
     def get_object(self):
         return self.request.user
@@ -139,7 +139,7 @@ class CreateEventView(generic.View):
 class EditEventView(generic.UpdateView):
     model = Event
     form_class = createEvent
-    success_url = reverse_lazy('eventFindeApp:AccountView')
+    success_url = reverse_lazy('eventFinderApp:Account')
     template_name = 'eventFinderApp/editEvent.html'
 
 
@@ -148,4 +148,4 @@ def event_remove(request, event_id):
     event = Event.objects.get(pk=event_id)
     if request.user == event.created_by:
         Event.objects.filter(id=event_id).delete()
-        return redirect('eventFindeApp:AccountView')
+        return redirect('eventFinderApp:Account')
