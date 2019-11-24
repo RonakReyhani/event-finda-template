@@ -1,6 +1,13 @@
 <div class="sidenav">
-    <a href="{% url 'eventFinderApp:editprofile' user.pk %}">Update Profile</a>
-    <a href="{% url 'users:password_change'%}">Change Password</a>
-    <a href="">Manage Events</a>
-
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'eventFinderApp:editprofile' user.pk %}">Update Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:password_change'%}">Change Password</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href="">Manage Events</a>
+        </li>
+    </ul>
 </div>

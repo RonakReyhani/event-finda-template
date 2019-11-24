@@ -46,12 +46,13 @@ a {
 .sidenav a {
 
     text-decoration: none;
+    color: black
 }
 
 .sidenav a:hover {
 
     text-decoration: none;
-    color: black
+    color: gray
 }
 
 
