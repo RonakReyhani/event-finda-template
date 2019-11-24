@@ -15,6 +15,7 @@ from django.utils.decorators import method_decorator
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import TemplateView
+from users.forms import CustomUserChangeForm
 
 
 # class ProfileView(generic.ListView):
@@ -35,9 +36,8 @@ class IndexView(generic.ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        '''Return the events.'''
-        return Event.objects.all().order_by(
-            'start_time')
+        now = timezone.now()
+        return Event.objects.filter(start_time__gte=now).order_by('start_time')
 
 
 class AccountView(generic.DetailView):
@@ -53,9 +53,22 @@ class AccountView(generic.DetailView):
         return Event.objects.filter(created_by=self.request.user).order_by('start_time')
 
 
+# def account(request):
+#     accountform = AccountForm()
+#     return render(request, 'eventFinderApp/account.html', {'accountform': accountform})
+
 def account(request):
-    accountform = AccountForm()
-    return render(request, 'eventFinderApp/account.html', {'accountform': accountform})
+    events_list = Event.objects.filter(created_by=request.user)
+    if request.method == 'POST':
+        print(request.POST)
+        user_form = CustomUserChangeForm(request.POST, instance=request.user)
+        if user_form.is_valid():
+            user_form.save()
+    else:
+        user_form = CustomUserChangeForm(instance=request.user)
+    context = {'events_list': events_list, 'form': user_form}
+    template_name = 'eventFinderApp/account.html'
+    return render(request, template_name, context)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -135,17 +148,13 @@ class CreateEventView(generic.View):
         return render(request, self.template, self.form_context(createEvent))
 
 
-@method_decorator(login_required, name='dispatch')
-class EditEventView(generic.UpdateView):
+class EditEvent(generic.UpdateView):
     model = Event
     form_class = createEvent
-    success_url = reverse_lazy('eventFinderApp:Account')
-    template_name = 'eventFinderApp/editEvent.html'
+    template_name = 'eventFinderApp/createEvent.html'
+    success_url = reverse_lazy('eventFinderApp:index')
+    context_object_name = 'name'
 
-
-@login_required
-def event_remove(request, event_id):
-    event = Event.objects.get(pk=event_id)
-    if request.user == event.created_by:
-        Event.objects.filter(id=event_id).delete()
-        return redirect('eventFinderApp:Account')
+    def get_queryset(self):
+        # only allow logged in user to edit their own events
+        return self.model.objects.filter(host=self.request.user)

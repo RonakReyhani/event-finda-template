@@ -35,9 +35,9 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
-    def get_absolute_url(self):
-        """Returns the url to access a detail record for this event."""
-        return reverse('event', args=[str(self.id)])
+    # def get_absolute_url(self):
+    #     """Returns the url to access a detail record for this event."""
+    #     return reverse('event', args=[str(self.id)])
 
     @ property
     def get_cat_values(self):
@@ -57,8 +57,14 @@ class Event(models.Model):
     def is_not_past_event(self):
         return self.start_time >= datetime.now(tz=timezone.utc)
 
+    @property
+    def is_past_event(self):
+        return self.start_time < datetime.now(tz=timezone.utc)
+
 
 class Account(models.Model):
+    created_by = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, default=None, null=True)
     first_name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
     email = models.EmailField()

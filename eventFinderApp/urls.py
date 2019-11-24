@@ -9,11 +9,15 @@ urlpatterns = [
     # event-finder/1
     path('<int:pk>/', views.EventView.as_view(), name='event'),
     # event-finder/my-account
-    #     path('my-account/', views.account, name='account'),
-    path('my-account/', views.AccountView.as_view(), name='account'),
+    path('account/', views.account, name='account'),
+    # path('my-account/', views.AccountView.as_view(), name='account'),
     # event-finder/add-event
     #     path('add-event/', views.add_event, name='add_event'),
     path('createEvent/', views.CreateEventView.as_view(), name='CreateEvent'),
+    # update profile
+    path('profile/<int:pk>/edit/',
+         views.ProfileUpdateView.as_view(), name='editprofile'),
+
 ]
 
 
