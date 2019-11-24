@@ -1,7 +1,7 @@
 {% extends "./base.html" %} {% block content %}
 
 <div class="container">
-  <div class="card text-white bg-dark">
+  <div class="card text-white bg-dark mt-5">
     <div class="card-header mb-3">
       <h3>{{ event.title }}</h3>
     </div>
@@ -31,7 +31,7 @@
         {% if user.username %}
         <p>
           Created by:
-          <a class="text-white" href="{% url 'eventFinderApp:account' user.id %}">{{ user.username }}</a>
+          <a class="text-white" href="{% url 'eventFinderApp:account'%}">{{ user.username }}</a>
         </p>
         {% endif %}
       </div>
@@ -43,6 +43,7 @@
     </div>
   </div>
   <div>
-    {% endblock content %}
+
   </div>
 </div>
+{% endblock content %}
