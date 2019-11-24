@@ -9,7 +9,7 @@ background-image:url('../../../../media/images/Events__Page_Banner_Image.png'); 
 </div>
 <div class="row d-flex justify-content-center">
     <!-- table content suppressed -->
-    <div class="row">
+    <div class="row d-flex justify-content-center ">
         {% if events_list %}
         {% for event in events_list %}
 
@@ -20,13 +20,15 @@ background-image:url('../../../../media/images/Events__Page_Banner_Image.png'); 
         {% if forloop.counter|divisibleby:3 %}
 
     </div>
-    <div class="row">
-        {% endif %}
-        {% endfor %}
-
-        {% endif %}
-
+    <div class="row d-flex justify-content-center">
     </div>
+
+    {% endif %}
+    {% endfor %}
+
+    {% endif %}
+
+
 
     <div class="row d-flex justify-content-center">
 

@@ -10,9 +10,7 @@ urlpatterns = [
     path('<int:pk>/', views.EventView.as_view(), name='event'),
     # event-finder/my-account
     path('account/', views.account, name='account'),
-    # path('my-account/', views.AccountView.as_view(), name='account'),
-    # event-finder/add-event
-    #     path('add-event/', views.add_event, name='add_event'),
+
     path('createEvent/', views.CreateEventView.as_view(), name='CreateEvent'),
     # update profile
     path('profile/<int:pk>/edit/',

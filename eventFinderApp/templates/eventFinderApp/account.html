@@ -3,6 +3,7 @@
 
 
 <div class="container-fluid">
+
     <div class="container">
         <div class="row mb-5 bg-light p-2 shadow">
 
@@ -35,13 +36,45 @@
     </div>
 
     <div class="container shadow bg-light">
+
         <div class="row d-flex justify-content-around">
             <div class="col-md-2 h-100 col-sm-2 mt-2 ">
                 {% include './sideNav.html' %}
             </div>
             <div calss="col-md-10 col-sm-8">
-                <div class="row d-flex justify-content-center mt-5">
+                <div class="row d-flex justify-content-start mt-5">
                     <h3>Your upcomming events</h3>
+                </div>
+                <div class="row d-flex justify-content-around">
+                    {% if events_list %}
+                    {% for event in events_list %}
+
+                    <div class="row d-flex justify-content-between ml-2">
+                        {% if event.is_past_event %}
+                        {% else %}
+                        {% include "./detailsBox.html" with event=event %}
+
+                        {% endif %}
+                    </div>
+
+                    {% if forloop.counter|divisibleby:2 %}
+
+                </div>
+                <div class="row d-flex justify-content-between">
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <p>You don't have any upcomming events.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-around">
+
+            <div calss="col-md-10 col-sm-8">
+                <div class="row d-flex justify-content-start mt-5">
+                    <h3>Your Past events</h3>
                 </div>
                 <div class="row d-flex justify-content-around">
                     {% if events_list %}
@@ -58,7 +91,7 @@
                     {% if forloop.counter|divisibleby:2 %}
 
                 </div>
-                <div class="row d-flex justify-content-between ml-2">
+                <div class="row d-flex justify-content-between">
                     {% endif %}
                     {% endfor %}
                     {% else %}
@@ -68,38 +101,7 @@
             </div>
         </div>
 
-        <div class="row d-flex justify-content-around">
-            <div class="col-md-2 h-100 col-sm-2 mt-2 pl-0">
-                {% include './sideNav.html' %}
-            </div>
-            <div calss="col-md-10 col-sm-8">
-                <div class="row d-flex justify-content-center mt-5">
-                    <h3>Your upcomming events</h3>
-                </div>
-                <div class="row d-flex justify-content-between ml-2">
-                    {% if events_list %}
-                    {% for event in events_list %}
 
-                    <div class="row d-flex justify-content-between ml-2">
-                        {% if event.is_past_event %}
-                        {% else %}
-                        {% include "./detailsBox.html" with event=event %}
-
-                        {% endif %}
-                    </div>
-
-                    {% if forloop.counter|divisibleby:2 %}
-
-                </div>
-                <div class="row d-flex justify-content-between ml-2">
-                    {% endif %}
-                    {% endfor %}
-                    {% else %}
-                    <p>You don't have any past events.</p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
