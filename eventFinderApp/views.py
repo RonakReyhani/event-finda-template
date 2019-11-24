@@ -3,10 +3,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
 from django.views.generic import CreateView, DetailView
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
-from .models import Event
+from django.urls import reverse, reverse_lazy
+from .models import Event, Account
 from users.models import CustomUser
-from .forms import createEvent
+from .forms import createEvent, AccountForm
 from django.core.files.storage import FileSystemStorage
 from bootstrap_modal_forms.generic import BSModalLoginView
 from django.views.generic.edit import UpdateView
@@ -14,20 +14,35 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
-
 from django.views.generic.base import TemplateView
-# class ProfileView(generic.DetailView):
-#     model = CustomUser
-#     template_name = "profile.html"
-#     context_object_name = 'profile_view'
+
+
+# class ProfileView(generic.ListView):
+#     template_name = 'eventFinderApp/profile.html'
+#     context_object_name = 'events_list'
+
+#     def get_object(self, queryset=None):
+#         return self.request.user
 
 #     def get_queryset(self):
 #         '''Return the events.'''
 #         return Event.objects.filter(created_by=self.request.user).order_by('start_time')
 
+class IndexView(generic.ListView):
+    model = Event
+    template_name = 'eventFinderApp/index.html'
+    context_object_name = 'events_list'
+    paginate_by = 6
 
-class ProfileView(generic.ListView):
-    template_name = 'eventFinderApp/profile.html'
+    def get_queryset(self):
+        '''Return the events.'''
+        return Event.objects.all().order_by(
+            'start_time')
+
+
+class AccountView(generic.DetailView):
+    model = Account
+    template_name = 'eventFinderApp/account.html'
     context_object_name = 'events_list'
 
     def get_object(self, queryset=None):
@@ -38,10 +53,9 @@ class ProfileView(generic.ListView):
         return Event.objects.filter(created_by=self.request.user).order_by('start_time')
 
 
-# class EditProfile(generic.UpdateView):
-#     form_class = CustomUserChangeForm
-#     success_url = reverse_lazy('eventFinderApp:profile')
-#     template_name = 'registration/editprofile.html'
+def account(request):
+    accountform = AccountForm()
+    return render(request, 'eventFinderApp/account.html', {'accountform': accountform})
 
 
 @method_decorator(login_required, name='dispatch')
@@ -49,39 +63,10 @@ class ProfileUpdateView(UpdateView):
     model = CustomUser
     fields = ('first_name', 'last_name', 'email', 'image')
     template_name = 'eventFinderApp/edit_profile.html'
-    success_url = reverse_lazy('eventFinderApp:profile')
+    success_url = reverse_lazy('eventFindeApp:AccountView')
 
     def get_object(self):
         return self.request.user
-
-
-class IndexView(generic.ListView):
-    model = Event
-    template_name = 'eventFinderApp/index.html'
-    context_object_name = 'events_list'
-    paginate_by = 6
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     list_films = Film.objects.all()
-    #     paginator = Paginator(list_films, self.paginate_by)
-
-    #     page = self.request.GET.get('page')
-    # def get_context_data(self, **kwargs):
-    #     kwargs['event'] = self.Event
-    #     return super().get_context_data(**kwargs)
-
-    # def get_queryset(self):
-    #     self.event = get_object_or_404(
-    #         Event, pk=self.kwargs.get('pk'))
-    #     queryset = self.event.objects.all().order_by(
-    #         'start_time').annotate(replies=Count('event') - 1)
-    #     return queryset
-
-    def get_queryset(self):
-        '''Return the events.'''
-        return Event.objects.all().order_by(
-            'start_time')
 
 
 class EventView(generic.DetailView):
@@ -89,9 +74,27 @@ class EventView(generic.DetailView):
     template_name = 'eventFinderApp/event.html'
 
 
-# def Profile(request):
-#     accountform = ProfileForm()
-#     return render(request, 'eventFinderApp/profile.html', {'accountform': accountform})
+def add_event(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = EventForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            event = form.save(commit=False)
+            event.host = request.user
+            event.save()
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            # return HttpResponseRedirect('/thanks/')
+
+            return HttpResponseRedirect(reverse('eventFinderApp:index'))
+        return render(request, 'eventFinderApp/newEventForm.html', {'eventform': form})
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        eventform = EventForm()
+        return render(request, 'eventFinderApp/newEventForm.html', {'eventform': eventform})
 
 
 class CreateEventView(generic.View):
@@ -136,7 +139,7 @@ class CreateEventView(generic.View):
 class EditEventView(generic.UpdateView):
     model = Event
     form_class = createEvent
-    success_url = reverse_lazy('eventFinderApp:profile')
+    success_url = reverse_lazy('eventFindeApp:AccountView')
     template_name = 'eventFinderApp/editEvent.html'
 
 
@@ -145,24 +148,4 @@ def event_remove(request, event_id):
     event = Event.objects.get(pk=event_id)
     if request.user == event.created_by:
         Event.objects.filter(id=event_id).delete()
-        return redirect('eventFinderApp:profile')
-
-
-# @login_required
-# def event_edit(request, post_id):
-#     event = Event.objects.get(pk=event_id)
-#     if request.user == event.created_by:
-#         if request.method == 'POST':
-#             form = createEvent(request.POST, instance=event)
-#             if form.is_valid():
-#                 form.save()
-#                 return redirect('eventFinderApp:profile')
-
-#         else:
-#             form = createEvent(instance=event)
-
-#     args = {}
-#     args.update(csrf(request))
-#     args['form'] = form
-
-#     return render_to_response('eventFinderApp/event_update_form.html', args)
+        return redirect('eventFindeApp:AccountView')

@@ -58,11 +58,7 @@ class Event(models.Model):
         return self.start_time >= datetime.now(tz=timezone.utc)
 
 
-class DateForm(forms.Form):
-    date = forms.DateTimeField(
-        input_formats=['%d/%m/%Y %H:%M'],
-        widget=forms.DateTimeInput(attrs={
-            'class': 'form-control datetimepicker-input',
-            'data-target': '#datetimepicker1'
-        })
-    )
+class Account(models.Model):
+    first_name = models.CharField(max_length=50)
+    surname = models.CharField(max_length=50)
+    email = models.EmailField()
