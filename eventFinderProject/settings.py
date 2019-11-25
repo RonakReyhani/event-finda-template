@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+
+import dj_database_url
 import os
 import socket
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -23,9 +25,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ia%+sm_))53wjxov*1abig1-&*w8cu#f78@-(k3vu=ehn25@_q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost',
+                 '127.0.0.1', 'nadia-eventfinder.herokuapp.com']
+
 
 if 'BEANSTALK_HOST' in os.environ:
     ALLOWED_HOSTS.append(os.environ['BEANSTALK_HOST'])
@@ -61,6 +65,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 
 ]
 
@@ -103,7 +108,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'eventFinderProject.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -117,6 +121,10 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
+
 if 'RDS_HOSTNAME' in os.environ:
     DATABASES = {
         'default': {
@@ -183,8 +191,7 @@ if 'S3_BUCKET' in os.environ:
 AUTH_USER_MODEL = 'users.customUser'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
-
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # usermanager/settings.py
 EMAIL_HOST = ''
 EMAIL_PORT = 587

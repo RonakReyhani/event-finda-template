@@ -1,5 +1,1 @@
-web: python manage.py $PATH
-
-# Run the application on the Environment Port if one exists otherwise use port 8080
-port = int(os.environ.get('PORT', 8000))
-app.run(host='0.0.0.0', port=port)
+web: gunicorn eventFinderProject.wsgi --log-file -
